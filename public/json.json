@@ -1,0 +1,71 @@
+{
+  "external_url": "https://marble.cards/card/204109",
+  "description": "Marble Card #204109 with a unique link to https://opensea.io/assets/0x60e4d786628fea6478f785a6d7e704777c86a7c6/6323 | This URL can only exist on one card. Creating Marble Cards is a way to bookmark and show appreciation for web content. It\u2019s an Internet indexing game where you can create, battle and trade unique NFT frames of web content. The image in the circle is not part of the Marble Card NFT. It comes from the OpenGraph and is shown as a preview of the linked URL, same as when shared on social media.",
+  "name": "6323 - Mutant Ape Yacht Club | OpenSea",
+  "attributes": [
+    { "value": 40, "trait_type": "level", "max_value": 100 },
+    { "value": "boron", "trait_type": "generation" },
+    { "value": "http://opensea.io", "trait_type": "collection" },
+    { "value": 36385, "trait_type": "collection_id", "display_type": "number" }
+  ],
+  "marble_attributes": {
+    "nft_id": 204109,
+    "owner_address": "0xbfb516732980721433D2cE79aec7e9A0C8281Eb2",
+    "title": "6323 - Mutant Ape Yacht Club | OpenSea",
+    "card_title_row_count": 2,
+    "card_title_multiline": "6323 - Mutant Ape Yacht Club | \nOpenSea ",
+    "description": "Marble Card #204109 with a unique link to https://opensea.io/assets/0x60e4d786628fea6478f785a6d7e704777c86a7c6/6323 | This URL can only exist on one card. Creating Marble Cards is a way to bookmark and show appreciation for web content. It\u2019s an Internet indexing game where you can create, battle and trade unique NFT frames of web content. The image in the circle is not part of the Marble Card NFT. It comes from the OpenGraph and is shown as a preview of the linked URL, same as when shared on social media.",
+    "signature": null,
+    "signature_2k": null,
+    "bgr_algorithm": "boron",
+    "marbled": "2021-10-14T20:22:46+00:00",
+    "remarble_count": null,
+    "url": "https://opensea.io/assets/0x60e4d786628fea6478f785a6d7e704777c86a7c6/6323",
+    "creator_address": "0xF4eDbF28689C749179e234402da40deBB7919b3E",
+    "level": 40,
+    "grade": "BASIC",
+    "network_name": "matic",
+    "game": { "color": null, "suit": null, "rank": null, "strength": null },
+    "card_gif": null,
+    "allowed_to_show_gif": false,
+    "rewards": null,
+    "auction": {
+      "seller_address": "0xF4eDbF28689C749179e234402da40deBB7919b3E",
+      "starting_price": 2000000000000000000000,
+      "ending_price": 100000000000000000000,
+      "started_at": "2021-10-14T20:22:46+00:00",
+      "ended_at": "2021-10-15T08:22:46+00:00",
+      "duration": 43200,
+      "is_initial_auction": true,
+      "can_be_canceled": false,
+      "current_price": 1989910353604166549504
+    },
+    "domain_collection": {
+      "domain_name": "Opensea.io",
+      "domain_url": "http://opensea.io",
+      "domain_power": 100,
+      "domain_favicon_url": "https://cdn.marble.cards/images/domain-favicon/0/64-opensea.io.png",
+      "collection_number": 36385,
+      "is_gold_card": false
+    },
+    "image_censored": null,
+    "image_censored_2k": null,
+    "censor_external_thumbnails": false,
+    "censor_internal_thumbnails": false,
+    "share_image": "https://cdn.marble.cards/images/cards/284/284855/284855-share.png?version=2",
+    "share_image_2k": "https://cdn.marble.cards/images/cards/284/284855/284855-share-2k.png?version=2",
+    "composite_image": {
+      "card": "https://cdn.marble.cards/images/cards/284/284855/284855.png?version=2",
+      "page_thumbnail": "https://cdn.marble.cards/images/cards/284/284855/284855-page-thumbnail.png?version=2",
+      "page_gif": null
+    },
+    "composite_image_2k": {
+      "card": "https://cdn.marble.cards/images/cards/284/284855/284855-2k.png?version=2",
+      "page_thumbnail": "https://cdn.marble.cards/images/cards/284/284855/284855-page-thumbnail-2k.png?version=2",
+      "page_gif": null
+    },
+    "image": "https://cdn.marble.cards/images/cards/284/284855/284855-share.png?version=2",
+    "image_2k": "https://cdn.marble.cards/images/cards/284/284855/284855-share-2k.png?version=2"
+  },
+  "image": "https://cdn.marble.cards/images/cards/284/284855/284855-share.png?version=2"
+}
