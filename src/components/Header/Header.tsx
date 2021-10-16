@@ -22,7 +22,7 @@ const Header: React.FC<Props> = () => {
         <Link href="/">NFT-platform</Link>
         <Nav>
           <Link href="/marketplace">Marketplace</Link>
-          <Link href="/mint-nft">Mint</Link>
+          <Link href="/mint">Mint</Link>
           {active && <Link href="/profile">Profile</Link>}
           <ConnectButton onClick={handleClick}>{buttonMessage}</ConnectButton>
         </Nav>

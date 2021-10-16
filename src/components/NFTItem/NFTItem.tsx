@@ -1,20 +1,35 @@
-import Image from 'next/image';
+import { useState } from 'react';
 import useSwr from 'swr';
-import { Wrapper, ContentWrapper, Button } from './NFTItem.styles';
+import { Wrapper, ContentWrapper, Button, Image, ImageWrapper, ErrorMessage } from './NFTItem.styles';
 
 interface Props {
   item: NFTT;
 }
 
 const NFTItem: React.FC<Props> = ({ item }) => {
+  const [loadError, setLoadError] = useState(false);
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error } = useSwr<TokenURIDataT>(item.tokenURI, fetcher);
+  const { data: _data, error } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
+  const data = _data ? _data[0] : ({} as any);
 
   return (
     <Wrapper>
-      {data?.image && (
-        <Image src={data?.image} height={300} width={300} objectFit="cover" objectPosition="center" />
-      )}
+      <ImageWrapper>
+        {!loadError && !data.image && <ErrorMessage>Loading</ErrorMessage>}
+        {data?.image && (
+          <>
+            {loadError && <ErrorMessage>Invalid image</ErrorMessage>}
+
+            <Image
+              src={data?.image}
+              layout="fill"
+              objectFit="cover"
+              objectPosition="center"
+              onError={() => setLoadError(true)}
+            />
+          </>
+        )}
+      </ImageWrapper>
       <ContentWrapper>
         <p>{data?.name || 'No name provided'}</p>
         <Button>
