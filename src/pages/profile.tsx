@@ -30,7 +30,7 @@ const Profile: NextPage = () => {
     <Layout metaTitle="View your profile" metaDescription="View your profile's NFTs!">
       <section>
         <h1>Welcome to your collection: {account}</h1>
-        <NFTList list={nfts} />
+        <NFTList list={nfts} contract={mintNftAddress} />
       </section>
     </Layout>
   );

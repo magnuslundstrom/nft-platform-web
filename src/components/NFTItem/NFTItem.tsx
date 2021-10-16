@@ -4,9 +4,10 @@ import { Wrapper, ContentWrapper, Button, Image, ImageWrapper, ErrorMessage } fr
 
 interface Props {
   item: NFTT;
+  contract: string;
 }
 
-const NFTItem: React.FC<Props> = ({ item }) => {
+const NFTItem: React.FC<Props> = ({ item, contract }) => {
   const [loadError, setLoadError] = useState(false);
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data: _data, error } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
@@ -33,7 +34,7 @@ const NFTItem: React.FC<Props> = ({ item }) => {
       <ContentWrapper>
         <p>{data?.name || 'No name provided'}</p>
         <Button>
-          <a href={`/item/contract/${item.tokenId}`}>See more</a>
+          <a href={`/item/${contract}/${item.tokenId}`}>See more</a>
         </Button>
       </ContentWrapper>
     </Wrapper>

@@ -11,7 +11,7 @@ export const Image = styled(NextImage)`
 `;
 
 export const ContentWrapper = styled.div`
-  ${tw`p-10 bg-gray-800 rounded-bl-md rounded-br-md`}
+  ${tw`p-6 bg-gray-800 rounded-bl-md rounded-br-md`}
 
   p {
     ${tw`text-2xl font-semibold`}
@@ -19,7 +19,10 @@ export const ContentWrapper = styled.div`
 `;
 
 export const Button = styled.a`
-  ${tw`bg-indigo-600 rounded-md px-6 py-2 text-base mt-8 inline-block hover:bg-indigo-700 cursor-pointer`}
+  ${tw`bg-indigo-600 rounded-md px-6 py-2 text-base mt-8 inline-block hover:bg-indigo-700 cursor-pointer`};
+  a {
+    ${tw`text-white`}
+  }
 `;
 
 export const ImageWrapper = styled.div`
