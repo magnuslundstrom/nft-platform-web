@@ -19,16 +19,19 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
-  font-family: 'DM Serif Display', serif;
-  ${tw`text-gray-200 font-mono`};
+  ${tw`text-gray-200 font-mono font-semibold`};
+}
+
+p {
+  ${tw`my-3`};
 }
 
 p, a {
   ${tw`text-gray-200`};
 }
+
 a {
-  text-decoration: none;
+  ${tw`no-underline text-blue-400`}
 }
 
 button {

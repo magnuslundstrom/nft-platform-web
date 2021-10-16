@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import type { NextPage } from 'next';
 import { useWeb3React } from '@web3-react/core';
 import { useForm } from 'react-hook-form';
@@ -19,6 +20,12 @@ const Home: NextPage = () => {
       {active && (
         <section>
           <h1>Mint your own NFT using our contract!</h1>
+          <p>
+            Please keep in mind that you will be using our contract when you mint an NFT here. If you already
+            have your own contract, feel free to register it here, so you can be shown in the Marketplace.
+            However you need to make sure you meta-data aligns with the way we fetch and display data. you can
+            read more about that on <Link href="/register-contract">here</Link>.
+          </p>
           <form onSubmit={handleSubmit((data) => console.log(data))}>
             <input defaultValue="test" {...register('example')} type="text" />
             <input type="submit" />
