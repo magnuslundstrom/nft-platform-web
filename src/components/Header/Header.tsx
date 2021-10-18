@@ -4,15 +4,13 @@ import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
 import { Wrapper, Inner, Nav, ConnectButton } from './Header.styles';
 
-interface Props {}
-
-const Header: React.FC<Props> = () => {
+const Header: React.FC = () => {
   const { active, activate, deactivate } = useWeb3React();
 
   const handleClick = useCallback(() => {
     if (!active) activate(InjectedConnector);
     else deactivate();
-  }, [active]);
+  }, [activate, active, deactivate]);
 
   const buttonMessage = active ? 'Disconnect' : 'Connect wallet';
 

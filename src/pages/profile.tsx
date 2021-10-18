@@ -1,36 +1,59 @@
 import { useState, useEffect } from 'react';
+import useSWR from 'swr';
 import type { NextPage } from 'next';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import Layout from '@/components/Layout/Layout';
 import NFTList from '@/components/NFTList/NFTList';
-import { mintNftAddress } from '@/constants/contracts/mintNFT/address';
-import abi from '@/constants/contracts/mintNFT/abi.json';
+
+export type State = {
+  contractAddress: string;
+  nfts: NFTT[];
+};
 
 const Profile: NextPage = () => {
   const { account, library } = useWeb3React();
-  const [nfts, setNfts] = useState<NFTT[]>([]);
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+  const { data, error } = useSWR<ContractT[]>('http://localhost:3080', fetcher);
+  const [nfts, setNfts] = useState<State[]>([]);
 
   useEffect(() => {
-    if (account) {
+    if (account && data) {
       const signer = library.getSigner(account);
-      const contract = new ethers.Contract(mintNftAddress, abi, signer);
-      contract.functions.ownedNfts(account).then((_data) => {
-        const data = _data[0];
-        const tokens = data.map((token: any) => ({
-          tokenURI: token.tokenURI,
-          tokenId: token.tokenId.toNumber(),
-        }));
-        setNfts(tokens);
+      data.forEach((contract) => {
+        const metaContract = new ethers.Contract(
+          contract.contract_address,
+          contract.abi,
+          signer,
+        );
+
+        metaContract.functions.ownedNfts(account).then((_data) => {
+          const realData = _data[0];
+          const tokens = realData.map((token: any) => ({
+            tokenURI: token.tokenURI,
+            tokenId: token.tokenId.toNumber(),
+          }));
+          const obj = {
+            contractAddress: contract.contract_address,
+            nfts: tokens,
+          };
+          setNfts([obj]);
+        });
       });
     }
-  }, [account, library]);
+  }, [account, data, error, library]);
 
   return (
-    <Layout metaTitle="View your profile" metaDescription="View your profile's NFTs!">
+    <Layout
+      metaTitle="View your profile"
+      metaDescription="View your profile's NFTs!"
+    >
       <section>
-        <h1>Welcome to your collection: {account}</h1>
-        <NFTList list={nfts} contract={mintNftAddress} />
+        <h1>
+          Welcome to your collection:
+          {account}
+        </h1>
+        <NFTList list={nfts} />
       </section>
     </Layout>
   );

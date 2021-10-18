@@ -7,14 +7,14 @@ import GlobalStyles from '@/styles/GlobalStyles';
 import Head, { HeadPropsT } from './Head';
 import { Wrapper } from './Layout.styles';
 
-interface Props extends HeadPropsT {}
+type Props = HeadPropsT;
 
 const Layout: React.FC<Props> = ({ children, metaTitle, metaDescription }) => {
-  const { activate } = useWeb3React();
+  const { activate, active } = useWeb3React();
 
   useEffect(() => {
-    activate(InjectedConnector);
-  }, []);
+    if (!active) activate(InjectedConnector);
+  }, [activate, active]);
 
   return (
     <>

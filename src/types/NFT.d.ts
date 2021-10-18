@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 interface NFTT {
   tokenId: number;
   tokenURI: string;

@@ -1,6 +1,13 @@
 import { useState } from 'react';
 import useSwr from 'swr';
-import { Wrapper, ContentWrapper, Button, Image, ImageWrapper, ErrorMessage } from './NFTItem.styles';
+import {
+  Wrapper,
+  ContentWrapper,
+  Button,
+  Image,
+  ImageWrapper,
+  ErrorMessage,
+} from './NFTItem.styles';
 
 interface Props {
   item: NFTT;
@@ -10,7 +17,7 @@ interface Props {
 const NFTItem: React.FC<Props> = ({ item, contract }) => {
   const [loadError, setLoadError] = useState(false);
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: _data, error } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
+  const { data: _data } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
   const data = _data ? _data[0] : ({} as any);
 
   return (
