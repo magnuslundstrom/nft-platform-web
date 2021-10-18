@@ -7,8 +7,13 @@ const Home: NextPage = () => {
   const { active } = useWeb3React();
 
   return (
-    <Layout metaTitle="Welcome to NFT-platform" metaDescription="Get your next NFT here!">
-      {!active && <Message message="Please connect your wallet for the best experience" />}
+    <Layout
+      metaTitle="Welcome to NFT-platform"
+      metaDescription="Get your next NFT here!"
+    >
+      {!active && (
+        <Message message="Please connect your wallet for the best experience" />
+      )}
       <section>
         <h1>Latest minted Nft's</h1>
       </section>
