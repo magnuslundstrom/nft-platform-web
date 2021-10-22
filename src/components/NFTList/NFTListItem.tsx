@@ -7,14 +7,14 @@ import {
   Image,
   ImageWrapper,
   ErrorMessage,
-} from './NFTItem.styles';
+} from './NFTListItem.styles';
 
 interface Props {
   item: NFTT;
   contract: string;
 }
 
-const NFTItem: React.FC<Props> = ({ item, contract }) => {
+const NFTListItem: React.FC<Props> = ({ item, contract }) => {
   const [loadError, setLoadError] = useState(false);
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
   const { data: _data } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
@@ -48,4 +48,4 @@ const NFTItem: React.FC<Props> = ({ item, contract }) => {
   );
 };
 
-export default NFTItem;
+export default NFTListItem;

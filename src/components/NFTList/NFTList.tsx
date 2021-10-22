@@ -1,5 +1,5 @@
 import { Wrapper } from './NFTList.styles';
-import NFTItem from '@/components/NFTItem/NFTItem';
+import NFTItem from '@/components/NFTList/NFTListItem';
 import { State } from '@/pages/profile';
 
 interface Props {
