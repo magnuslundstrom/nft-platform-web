@@ -38,6 +38,8 @@ module.exports = {
     'react/no-unescaped-entities': 'off',
     'import/prefer-default-export': 'off',
     'object-curly-newline': 'off',
+    'implicit-arrow-linebreak': 'off',
+    'operator-linebreak': 'off',
     semi: 'error',
     'import/extensions': [
       'error',
