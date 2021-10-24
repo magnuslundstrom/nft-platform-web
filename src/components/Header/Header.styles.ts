@@ -3,6 +3,9 @@ import tw from 'twin.macro';
 
 export const Wrapper = styled.header`
   ${tw`bg-gray-800 shadow-md py-8 px-4`}
+  a {
+    ${tw`text-white`};
+  }
 `;
 
 export const Inner = styled.header`

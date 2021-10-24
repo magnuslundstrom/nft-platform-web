@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             mint an NFT here. If you already have your own contract, feel free
             to register it here, so you can be shown in the Marketplace. However
             you need to make sure you meta-data aligns with the way we fetch and
-            display data. you can read more about that on
+            display data. you can read more about that on{' '}
             <Link href="/register-contract">here</Link>.
           </p>
           <form onSubmit={handleSubmit((data) => data)}>

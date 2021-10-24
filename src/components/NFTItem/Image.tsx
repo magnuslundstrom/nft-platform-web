@@ -1,14 +1,26 @@
-import { ImageContainer, Title, ImageWrapper, Image } from './Image.styles';
+import {
+  ImageContainer,
+  Title,
+  ImageWrapper,
+  Image,
+  HeaderWrapper,
+  ContentWrapper,
+} from './Image.styles';
+
+import Attributes from './Attributes';
 
 interface Props {
   item: TokenURIDataT;
 }
 
 const NFTItem: React.FC<Props> = ({ item }) => {
-  const { description, image, name } = item;
+  const { description, image, name, attributes } = item;
   return (
     <ImageWrapper>
-      <Title>{name}</Title>
+      <HeaderWrapper>
+        <Title>{name}</Title>
+        <p>Likes: 0</p>
+      </HeaderWrapper>
       <ImageContainer>
         <Image
           src={image}
@@ -17,7 +29,10 @@ const NFTItem: React.FC<Props> = ({ item }) => {
           objectPosition="left top"
         />
       </ImageContainer>
-      <p>{description}</p>
+      <ContentWrapper>
+        <h3>{description}</h3>
+        <Attributes attributes={attributes} />
+      </ContentWrapper>
     </ImageWrapper>
   );
 };

@@ -1,16 +1,23 @@
+import styled from 'styled-components';
+import tw from 'twin.macro';
 import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
 import useSWR from 'swr';
 import Layout from '@/components/Layout/Layout';
-import NFTItem from '@/components/NFTItem/Image';
-import { fetcher } from '@/helpers/fetchers/NFTItemFetcher';
+import NFTItemImage from '@/components/NFTItem/Image';
+import { fetchTokenURI } from '@/helpers/fetchers/fetchTokenURI';
+
+const Grid = styled.div`
+  ${tw`grid`};
+  grid-template-columns: 1fr 2fr;
+`;
 
 const Home: NextPage = () => {
   const router = useRouter();
   const { contractAddress, id } = router.query;
   const { data, error } = useSWR<TokenURIDataT>(
     `http://localhost:3080/smart-contract/${contractAddress}`,
-    fetcher(contractAddress as string, id as string),
+    fetchTokenURI(contractAddress as string, id as string),
   );
 
   if (error) {
@@ -23,7 +30,11 @@ const Home: NextPage = () => {
       metaDescription="Get your next NFT here!"
     >
       {!data && 'loading...'}
-      {data && <NFTItem item={data} />}
+      {data && (
+        <Grid>
+          <NFTItemImage item={data} />
+        </Grid>
+      )}
     </Layout>
   );
 };

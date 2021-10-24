@@ -3,17 +3,24 @@ import styled from 'styled-components';
 import tw from 'twin.macro';
 
 export const ImageContainer = styled.div`
-  ${tw`relative w-96 h-96`};
+  ${tw`relative w-full h-96 shadow-lg`};
 `;
 
 export const Image = styled(NextImage)`
-  ${tw`rounded-br-md rounded-bl-md`}
+  ${tw`shadow-lg`}
 `;
 
+export const HeaderWrapper = styled.div`
+  ${tw`p-4 flex justify-between items-center`}
+`;
 export const Title = styled.h1`
-  ${tw`text-2xl mb-4`}
+  ${tw`text-2xl`}
 `;
 
 export const ImageWrapper = styled.div`
-  ${tw`p-10 bg-gray-800`}
+  ${tw`bg-gray-800 rounded-md`}
+`;
+
+export const ContentWrapper = styled.div`
+  ${tw`p-4`}
 `;

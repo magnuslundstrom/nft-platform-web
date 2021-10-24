@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 
-export const fetcher =
+export const fetchTokenURI =
   (contractAddress: string, id: string) => async (url: string) => {
     const { abi } = await fetch(url).then((res) => res.json());
 
