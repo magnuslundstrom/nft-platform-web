@@ -41,6 +41,7 @@ module.exports = {
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'no-void': 'off',
     semi: 'error',
     'import/extensions': [
       'error',
