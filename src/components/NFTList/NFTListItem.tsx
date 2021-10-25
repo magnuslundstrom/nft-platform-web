@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import useSwr from 'swr';
+import { fetchGenericJson } from '@/helpers/fetchers/fetchGenericJson';
 import {
   Wrapper,
   ContentWrapper,
@@ -16,8 +17,10 @@ interface Props {
 
 const NFTListItem: React.FC<Props> = ({ item, contract }) => {
   const [loadError, setLoadError] = useState(false);
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: _data } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
+  const { data: _data } = useSwr<TokenURIDataT[]>(
+    item.tokenURI,
+    fetchGenericJson,
+  );
   const data = _data ? _data[0] : ({} as any);
 
   return (

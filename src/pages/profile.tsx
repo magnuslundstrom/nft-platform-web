@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import type { NextPage } from 'next';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
+import { fetchGenericJson } from '@/helpers/fetchers/fetchGenericJson';
 import Layout from '@/components/Layout/Layout';
 import NFTList from '@/components/NFTList/NFTList';
 
@@ -13,8 +14,10 @@ export type State = {
 
 const Profile: NextPage = () => {
   const { account, library } = useWeb3React();
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR<ContractT[]>('http://localhost:3080', fetcher);
+  const { data, error } = useSWR<ContractT[]>(
+    'http://localhost:3080',
+    fetchGenericJson,
+  );
   const [nfts, setNfts] = useState<State[]>([]);
 
   useEffect(() => {

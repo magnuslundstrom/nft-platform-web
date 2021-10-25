@@ -3,8 +3,7 @@ import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
 import Header from '@/components/Header/Header';
 import GlobalStyles from '@/styles/GlobalStyles';
-
-import Head, { HeadPropsT } from './Head';
+import Head, { HeadPropsT } from '@/components/Head/Head';
 import { Wrapper } from './Layout.styles';
 
 type Props = HeadPropsT;

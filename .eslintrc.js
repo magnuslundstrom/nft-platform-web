@@ -40,6 +40,7 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
+    'import/no-extraneous-dependencies': 'off',
     semi: 'error',
     'import/extensions': [
       'error',
