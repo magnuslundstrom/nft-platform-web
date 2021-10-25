@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
 import Header from '@/components/Header/Header';
-import GlobalStyles from '@/styles/GlobalStyles';
 import Head, { HeadPropsT } from '@/components/Head/Head';
 import { Wrapper } from './Layout.styles';
 
@@ -17,7 +16,7 @@ const Layout: React.FC<Props> = ({ children, metaTitle, metaDescription }) => {
 
   return (
     <>
-      <GlobalStyles />
+      {/* <GlobalStyles /> */}
       <Head metaTitle={metaTitle} metaDescription={metaDescription} />
       <Header />
       <Wrapper>{children}</Wrapper>

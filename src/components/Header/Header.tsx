@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useWeb3React } from '@web3-react/core';
-import { Button } from '@mui/material';
+import { Button, Link, Container } from '@mui/material';
 import { useTheme } from '@/hooks/useTheme';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
-import { Wrapper, Inner, Nav, ConnectButton } from './Header.styles';
+import { Inner, Nav, ConnectButton } from './Header.styles';
 
 const Header: React.FC = () => {
   const { active, activate, deactivate } = useWeb3React();
@@ -18,20 +18,24 @@ const Header: React.FC = () => {
   const buttonMessage = active ? 'Disconnect' : 'Connect wallet';
 
   return (
-    <Wrapper>
+    <Container maxWidth="lg">
       <Inner>
-        <Link href="/">NFT-platform</Link>
+        <NextLink href="/" passHref>
+          <Link underline="hover">NFT-Platform</Link>
+        </NextLink>
         <Nav>
-          <Link href="/marketplace">Marketplace</Link>
-          <Link href="/mint">Mint</Link>
-          {active && <Link href="/profile">Profile</Link>}
+          <NextLink href="/marketplace" passHref>
+            <Link underline="hover">Marketplace</Link>
+          </NextLink>
+          <NextLink href="/mint">Mint</NextLink>
+          {active && <NextLink href="/profile">Profile</NextLink>}
           <ConnectButton onClick={handleClick}>{buttonMessage}</ConnectButton>
           <Button variant="contained" onClick={toggleMode}>
             Toggle
           </Button>
         </Nav>
       </Inner>
-    </Wrapper>
+    </Container>
   );
 };
 

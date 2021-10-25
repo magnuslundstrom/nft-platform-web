@@ -42,6 +42,7 @@ module.exports = {
     'operator-linebreak': 'off',
     'import/no-extraneous-dependencies': 'off',
     'no-void': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
     semi: 'error',
     'import/extensions': [
       'error',
