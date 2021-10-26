@@ -1,13 +1,10 @@
-// import {
-//   ComponentsProps,
-//   ComponentsOverrides,
-//   ComponentsVariants,
-//   ComponentNameToClassKey,
-//   Theme,
-// } from '@mui/material';
+import { Theme } from '@mui/material';
+import { ComponentNameKey, ComponentProps } from './types';
 
-// type ComponentProps<T extends keyof ComponentNameToClassKey> = {
-//   defaultProps?: ComponentsProps[T];
-//   styleOverrides?: ComponentsOverrides[T];
-//   variants?: ComponentsVariants[T];
-// };
+export const generateComponent = <T extends ComponentNameKey>(
+  callback: (theme: Theme) => ComponentProps<T>,
+
+  // eslint-disable-next-line arrow-body-style
+) => {
+  return (theme: Theme) => callback(theme);
+};

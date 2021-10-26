@@ -1,9 +1,9 @@
-import { Theme } from '@mui/material';
+import { generateComponent } from '@/helpers/theme/generateComponent';
 
-export const MuiLink = (theme: Theme) => ({
+export const MuiLink = generateComponent((theme) => ({
   styleOverrides: {
     root: {
-      backgroundColor: theme.palette.background.paper,
+      color: theme.palette.text.primary,
     },
   },
-});
+}));

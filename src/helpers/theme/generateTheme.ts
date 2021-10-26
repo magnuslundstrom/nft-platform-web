@@ -1,24 +1,10 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-import {
-  ThemeOptions,
-  ComponentNameToClassKey,
-  ComponentsProps,
-  ComponentsVariants,
-  ComponentsOverrides,
-  Theme,
-  createTheme,
-} from '@mui/material';
-// The purpose of this helper is to allow us to use the generated properties
-// from the theme
+import { ThemeOptions, createTheme, Theme } from '@mui/material';
+import { ComponentProps, ComponentNameKey } from './types';
 
-type ComponentProps<T extends keyof ComponentNameToClassKey> = {
-  defaultProps?: ComponentsProps[T];
-  styleOverrides?: ComponentsOverrides[T];
-  variants?: ComponentsVariants[T];
-};
-
-export const generateTheme = <T extends keyof ComponentNameToClassKey>(
+export const generateTheme = <
+  K extends Record<string, ComponentProps<ComponentNameKey>>,
+  T extends Extract<keyof K, ComponentNameKey>,
+>(
   baseTheme: ThemeOptions,
   components: {
     [key in T]: (theme: Theme) => ComponentProps<T>;
@@ -30,21 +16,12 @@ export const generateTheme = <T extends keyof ComponentNameToClassKey>(
 
   const generatedComponents = {} as { [key in T]: ComponentProps<T> };
 
-  for (const key of Object.keys(components)) {
-    const k = key as T;
-    if (components[k] instanceof Function && components[k] !== undefined) {
-      generatedComponents[k] = components![k](theme);
-    }
-  }
+  Object.keys(components).forEach((_key) => {
+    const key = _key as T;
+    generatedComponents[key] = components[key](theme);
+  });
+
   theme.components = generatedComponents;
 
   return theme;
-};
-
-export const generateComponent = <T extends keyof ComponentNameToClassKey>(
-  callback: (theme: Theme) => ComponentProps<T>,
-
-  // eslint-disable-next-line arrow-body-style
-) => {
-  return (theme: Theme) => callback(theme);
 };

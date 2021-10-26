@@ -1,4 +1,4 @@
-import { generateComponent } from '@/helpers/theme/generateTheme';
+import { generateComponent } from '@/helpers/theme/generateComponent';
 
 export const MuiTypography = generateComponent(() => ({
   defaultProps: {
