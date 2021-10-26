@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import NextLink from 'next/link';
 import { useWeb3React } from '@web3-react/core';
-import { Button, Link, Container } from '@mui/material';
+import { Button, Link, AppBar, Container } from '@mui/material';
+import { FlexBox } from '@/components/Generics/FlexBox';
 import { useTheme } from '@/hooks/useTheme';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
-import { Inner, Nav, ConnectButton } from './Header.styles';
+import { Nav } from './Header.styles';
 
 const Header: React.FC = () => {
   const { active, activate, deactivate } = useWeb3React();
@@ -18,24 +19,40 @@ const Header: React.FC = () => {
   const buttonMessage = active ? 'Disconnect' : 'Connect wallet';
 
   return (
-    <Container maxWidth="lg">
-      <Inner>
-        <NextLink href="/" passHref>
-          <Link underline="hover">NFT-Platform</Link>
-        </NextLink>
-        <Nav>
-          <NextLink href="/marketplace" passHref>
-            <Link underline="hover">Marketplace</Link>
+    <AppBar sx={{ py: 2 }} position="relative">
+      <Container maxWidth="lg">
+        <FlexBox>
+          <NextLink href="/" passHref>
+            <Link underline="hover" color="white" sx={{ fontWeight: 'bold' }}>
+              NFT-Platform
+            </Link>
           </NextLink>
-          <NextLink href="/mint">Mint</NextLink>
-          {active && <NextLink href="/profile">Profile</NextLink>}
-          <ConnectButton onClick={handleClick}>{buttonMessage}</ConnectButton>
-          <Button variant="contained" onClick={toggleMode}>
-            Toggle
-          </Button>
-        </Nav>
-      </Inner>
-    </Container>
+          <Nav>
+            <NextLink href="/marketplace" passHref>
+              <Link underline="hover" color="white">
+                Marketplace
+              </Link>
+            </NextLink>
+            <NextLink href="/mint" passHref>
+              <Link underline="hover" color="white">
+                Mint
+              </Link>
+            </NextLink>
+            {active && <NextLink href="/profile">Profile</NextLink>}
+            <Button
+              variant="contained"
+              onClick={handleClick}
+              sx={{ marginRight: 3 }}
+            >
+              {buttonMessage}
+            </Button>
+            <Button variant="contained" onClick={toggleMode}>
+              Toggle
+            </Button>
+          </Nav>
+        </FlexBox>
+      </Container>
+    </AppBar>
   );
 };
 

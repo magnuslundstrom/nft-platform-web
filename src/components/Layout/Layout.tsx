@@ -16,7 +16,6 @@ const Layout: React.FC<Props> = ({ children, metaTitle, metaDescription }) => {
 
   return (
     <>
-      {/* <GlobalStyles /> */}
       <Head metaTitle={metaTitle} metaDescription={metaDescription} />
       <Header />
       <Wrapper>{children}</Wrapper>
