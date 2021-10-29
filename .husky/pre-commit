@@ -3,3 +3,9 @@
 
 yarn lint-staged
 
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "develop" ]; then
+  echo "Don't commit directly into develop"
+  exit 1
+fi
