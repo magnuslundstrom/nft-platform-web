@@ -7,4 +7,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: test
-      run: echo "james"
+        run: echo "james"
