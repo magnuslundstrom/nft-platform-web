@@ -5,7 +5,6 @@ import ThemeProvider from '@/contexts/Theme';
 import 'tailwindcss/tailwind.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log('a');
   return (
     <ThemeProvider>
       <CssBaseline />
