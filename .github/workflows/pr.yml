@@ -8,15 +8,22 @@ jobs:
     steps:
       - name: Get repo
         uses: actions/checkout@v2
+
+      - name: Get yarn cache directory path
+        id: yarn-cache-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache
         uses: actions/cache@v2
+        id: yarn-cache-path
         with:
-          path: |
-            '**/node_modules'
+          path: ${{ steps.yarn-cache-path.outputs.dir }}
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
       - name: Install Node
         uses: actions/setup-node@v2
         with:
           node-version: '14'
+
       - name: Install application dependencies
-        run: yarn
+        run: yarn --prefer-offline
