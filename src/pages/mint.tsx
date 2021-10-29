@@ -3,7 +3,6 @@ import type { NextPage } from 'next';
 import { useWeb3React } from '@web3-react/core';
 import { useForm } from 'react-hook-form';
 import Layout from '@/components/Layout/Layout';
-import Message from '@/components/Message/Message';
 
 const Home: NextPage = () => {
   const { active } = useWeb3React();
@@ -14,9 +13,6 @@ const Home: NextPage = () => {
       metaTitle="Welcome to NFT-platform"
       metaDescription="Get your next NFT here!"
     >
-      {!active && (
-        <Message message="Please connect your wallet for the best experience" />
-      )}
       {active && (
         <section>
           <h1>Mint your own NFT using our contract!</h1>

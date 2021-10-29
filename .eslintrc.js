@@ -27,8 +27,8 @@ module.exports = {
     'import',
   ],
   rules: {
-    'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
-    'react-hooks/exhaustive-deps': 'error', // Checks effect dependencies
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'error',
     '@typescript-eslint/no-unused-vars': 'error',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.tsx', '.ts'] }],
@@ -40,6 +40,13 @@ module.exports = {
     'object-curly-newline': 'off',
     'implicit-arrow-linebreak': 'off',
     'operator-linebreak': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'no-void': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+    'no-underscore-dangle': 'off',
+    camelcase: 'off',
+    indent: [0, 2],
+
     semi: 'error',
     'import/extensions': [
       'error',

@@ -1,8 +1,9 @@
 import { ethers } from 'ethers';
+import { fetchGenericJson } from './fetchGenericJson';
 
 export const fetchTokenURI =
   (contractAddress: string, id: string) => async (url: string) => {
-    const { abi } = await fetch(url).then((res) => res.json());
+    const { abi } = await fetchGenericJson(url);
 
     const provider = ethers.getDefaultProvider('ropsten');
     const metaContract = new ethers.Contract(

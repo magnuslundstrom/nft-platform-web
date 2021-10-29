@@ -1,33 +1,52 @@
-import { useState } from 'react';
-import useSwr from 'swr';
+import { useState, useMemo } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 import {
-  Wrapper,
-  ContentWrapper,
+  Card,
+  CardContent,
+  Typography,
   Button,
-  Image,
-  ImageWrapper,
-  ErrorMessage,
-} from './NFTListItem.styles';
+  Skeleton,
+  Box,
+} from '@mui/material';
+import { BsArrowRightShort } from 'react-icons/bs';
+import useSwr from 'swr';
+import { fetchGenericJson } from '@/helpers/fetchers/fetchGenericJson';
 
 interface Props {
   item: NFTT;
   contract: string;
 }
 
+const HEIGHT = 240;
+
 const NFTListItem: React.FC<Props> = ({ item, contract }) => {
   const [loadError, setLoadError] = useState(false);
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data: _data } = useSwr<TokenURIDataT[]>(item.tokenURI, fetcher);
+  const { data: _data } = useSwr<TokenURIDataT[]>(
+    item.tokenURI,
+    fetchGenericJson,
+  );
   const data = _data ? _data[0] : ({} as any);
 
-  return (
-    <Wrapper>
-      <ImageWrapper>
-        {!loadError && !data.image && <ErrorMessage>Loading</ErrorMessage>}
+  const renderImage = useMemo(() => {
+    if (!loadError && !data.image) {
+      return <Skeleton height={HEIGHT} variant="rectangular" />;
+    }
+    if (data.image && loadError) {
+      return (
+        <Box
+          sx={{
+            backgroundColor: 'grey.600',
+            height: HEIGHT,
+            width: '100%',
+          }}
+        />
+      );
+    }
+    return (
+      <Box sx={{ position: 'relative', height: HEIGHT }}>
         {data?.image && (
           <>
-            {loadError && <ErrorMessage>Invalid image</ErrorMessage>}
-
             <Image
               src={data?.image}
               layout="fill"
@@ -37,14 +56,29 @@ const NFTListItem: React.FC<Props> = ({ item, contract }) => {
             />
           </>
         )}
-      </ImageWrapper>
-      <ContentWrapper>
-        <p>{data?.name || 'No name provided'}</p>
-        <Button>
-          <a href={`/item/${contract}/${item.tokenId}`}>See more</a>
-        </Button>
-      </ContentWrapper>
-    </Wrapper>
+      </Box>
+    );
+  }, [data.image, loadError]);
+
+  return (
+    <Card raised>
+      {renderImage}
+      <CardContent sx={{ backgroundColor: 'background.paper' }}>
+        <Typography component="h3" variant="h4">
+          {data?.name || 'No name provided'}
+        </Typography>
+        <Link passHref href={`/item/${contract}/${item.tokenId}`}>
+          <Button
+            component="button"
+            variant="contained"
+            sx={{ mt: 2 }}
+            endIcon={<BsArrowRightShort />}
+          >
+            See more
+          </Button>
+        </Link>
+      </CardContent>
+    </Card>
   );
 };
 

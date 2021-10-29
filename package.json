@@ -11,6 +11,9 @@
     "prettify": "prettier --write"
   },
   "dependencies": {
+    "@mui/material": "^5.0.4",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "@mui/styles": "^5.0.2",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
     "babel-plugin-macros": "^3.1.0",
@@ -19,7 +22,8 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.17.4",
-    "styled-components": "^5.3.1",
+    "react-icons": "^4.3.1",
+    "styled-components": "^5.3.3",
     "swr": "^1.0.1",
     "tailwindcss": "^2.2.17",
     "twin.macro": "^2.8.0"
@@ -43,6 +47,9 @@
     "postcss": "^8.3.9",
     "prettier": "^2.4.1",
     "typescript": "4.4.4"
+  },
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [

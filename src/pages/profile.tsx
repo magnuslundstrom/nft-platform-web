@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
 import type { NextPage } from 'next';
+import { Typography } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
+import { fetchGenericJson } from '@/helpers/fetchers/fetchGenericJson';
 import Layout from '@/components/Layout/Layout';
 import NFTList from '@/components/NFTList/NFTList';
 
-export type State = {
+export type StateT = {
   contractAddress: string;
   nfts: NFTT[];
 };
 
 const Profile: NextPage = () => {
   const { account, library } = useWeb3React();
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR<ContractT[]>('http://localhost:3080', fetcher);
-  const [nfts, setNfts] = useState<State[]>([]);
+  const { data, error } = useSWR<ContractT[]>(
+    'http://localhost:3080',
+    fetchGenericJson,
+  );
+  const [nfts, setNfts] = useState<StateT[]>([]);
 
   useEffect(() => {
     if (account && data) {
@@ -49,10 +53,9 @@ const Profile: NextPage = () => {
       metaDescription="View your profile's NFTs!"
     >
       <section>
-        <h1>
-          Welcome to your collection:
-          {account}
-        </h1>
+        <Typography component="h1" variant="h3" sx={{ marginBottom: 3 }}>
+          Welcome to your collection
+        </Typography>
         <NFTList list={nfts} />
       </section>
     </Layout>

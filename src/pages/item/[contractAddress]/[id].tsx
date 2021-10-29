@@ -1,16 +1,11 @@
-import styled from 'styled-components';
-import tw from 'twin.macro';
-import { useRouter } from 'next/router';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import Image from 'next/image';
 import useSWR from 'swr';
+import { CircularProgress, Box, Typography, Grid } from '@mui/material';
 import Layout from '@/components/Layout/Layout';
-import NFTItemImage from '@/components/NFTItem/Image';
 import { fetchTokenURI } from '@/helpers/fetchers/fetchTokenURI';
-
-const Grid = styled.div`
-  ${tw`grid`};
-  grid-template-columns: 1fr 2fr;
-`;
+import Attributes from '@/components/NFTItem/Attributes';
 
 const Home: NextPage = () => {
   const router = useRouter();
@@ -29,11 +24,37 @@ const Home: NextPage = () => {
       metaTitle="Welcome to NFT-platform"
       metaDescription="Get your next NFT here!"
     >
-      {!data && 'loading...'}
+      {!data && <CircularProgress size={50} sx={{ color: 'GrayText' }} />}
       {data && (
-        <Grid>
-          <NFTItemImage item={data} />
-        </Grid>
+        <Box>
+          <Typography component="h1" variant="h3" sx={{ marginBottom: 3 }}>
+            {data.name}
+          </Typography>
+
+          <Grid container spacing={4}>
+            <Grid item xs={4}>
+              <Box
+                sx={{
+                  height: 500,
+                  position: 'relative',
+                  borderRadius: 1,
+                  overflow: 'hidden',
+                }}
+              >
+                <Image src={data.image} layout="fill" />
+              </Box>
+            </Grid>
+            <Grid item xs={8}>
+              <Box sx={{ marginBottom: 3 }}>
+                <Typography component="h3" variant="h5">
+                  From the collection: ...
+                </Typography>
+                <Typography variant="subtitle1">{data.description}</Typography>
+              </Box>
+              <Attributes attributes={data.attributes} />
+            </Grid>
+          </Grid>
+        </Box>
       )}
     </Layout>
   );
