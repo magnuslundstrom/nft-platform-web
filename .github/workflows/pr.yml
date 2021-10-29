@@ -13,6 +13,9 @@ jobs:
         with:
           node-version: '14'
           cache: 'yarn'
-      #test
+
       - name: Install application dependencies
         run: yarn
+
+      - name: Unit tests
+        run: yarn test:unit
