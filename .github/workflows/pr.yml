@@ -2,7 +2,6 @@ name: Pull Request
 
 on: pull_request
 
-## Inspiration from: https://stackoverflow.com/questions/61010294/how-to-cache-yarn-packages-in-github-actions
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -10,10 +9,10 @@ jobs:
       - name: Get repo
         uses: actions/checkout@v2
 
+      ## Inspiration from: https://stackoverflow.com/questions/61010294/how-to-cache-yarn-packages-in-github-actions
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
-
       - name: Cache
         uses: actions/cache@v2
         id: yarn-cache-path
