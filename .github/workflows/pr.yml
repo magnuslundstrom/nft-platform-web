@@ -8,6 +8,12 @@ jobs:
     steps:
       - name: Get repo
         uses: actions/checkout@v2
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+          '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       - name: Install Node
         uses: actions/setup-node@v2
         with:
