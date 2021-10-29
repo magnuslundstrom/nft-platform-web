@@ -1,25 +1,28 @@
-import { Wrapper } from './NFTList.styles';
+import { Grid } from '@mui/material';
 import NFTItem from '@/components/NFTList/NFTListItem';
-import { State } from '@/pages/profile';
+import { StateT } from '@/pages/profile';
 
 interface Props {
-  list: State[];
+  list: StateT[];
 }
 
 const NFTList: React.FC<Props> = ({ list }) => {
   const items: any[] = [];
   list.forEach((item) => {
     const n = item.nfts.map((i) => (
-      <NFTItem
-        contract={item.contractAddress}
-        item={i}
-        key={item.contractAddress}
-      />
+      <Grid key={item.contractAddress} item xs={3}>
+        {/* This should get tokenId from somewhere v */}
+        <NFTItem contract={item.contractAddress} item={i} />
+      </Grid>
     ));
     items.push(n);
   });
 
-  return <Wrapper>{items}</Wrapper>;
+  return (
+    <Grid container spacing={4}>
+      {items}
+    </Grid>
+  );
 };
 
 export default NFTList;

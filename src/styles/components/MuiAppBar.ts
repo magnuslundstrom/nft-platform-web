@@ -4,6 +4,7 @@ export const MuiAppBar = generateComponent((theme) => ({
   styleOverrides: {
     root: {
       backgroundColor: theme.palette.background.paper,
+      backgroundImage: 'none',
     },
   },
 }));

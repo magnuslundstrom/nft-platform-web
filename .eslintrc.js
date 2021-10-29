@@ -44,6 +44,7 @@ module.exports = {
     'no-void': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'no-underscore-dangle': 'off',
+    camelcase: 'off',
     indent: [0, 2],
 
     semi: 'error',

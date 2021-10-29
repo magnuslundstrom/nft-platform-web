@@ -1,26 +1,17 @@
-import { useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import { InjectedConnector } from '@/helpers/InjectedConnector';
+import { Container } from '@mui/material';
 import Header from '@/components/Header/Header';
 import Head, { HeadPropsT } from '@/components/Head/Head';
-import { Wrapper } from './Layout.styles';
 
 type Props = HeadPropsT;
 
-const Layout: React.FC<Props> = ({ children, metaTitle, metaDescription }) => {
-  const { activate, active } = useWeb3React();
-
-  useEffect(() => {
-    if (!active) activate(InjectedConnector);
-  }, [activate, active]);
-
-  return (
-    <>
-      <Head metaTitle={metaTitle} metaDescription={metaDescription} />
-      <Header />
-      <Wrapper>{children}</Wrapper>
-    </>
-  );
-};
+const Layout: React.FC<Props> = ({ children, metaTitle, metaDescription }) => (
+  <>
+    <Head metaTitle={metaTitle} metaDescription={metaDescription} />
+    <Header />
+    <Container maxWidth="xl" sx={{ marginTop: 4 }} component="main">
+      {children}
+    </Container>
+  </>
+);
 
 export default Layout;
