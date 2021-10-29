@@ -20,7 +20,7 @@ const Profile: NextPage = () => {
     fetchGenericJson,
   );
   const [nfts, setNfts] = useState<StateT[]>([]);
-
+  console.log('x');
   useEffect(() => {
     if (account && data) {
       const signer = library.getSigner(account);
