@@ -41,4 +41,4 @@ jobs:
         run: yarn test:unit
 
       - name: cURL test
-        run: curl -I http://localhost:3000
+        run: curl -I 0.0.0.0:3000
