@@ -19,6 +19,8 @@ jobs:
 
       - name: Build application
         run: yarn build
+      - name: Start application
+        run: yarn start
 
   tests:
     needs: build
@@ -37,3 +39,6 @@ jobs:
 
       - name: test
         run: yarn test:unit
+
+      - name: cURL test
+        run: curl -I http://localhost:3000
