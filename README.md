@@ -3,4 +3,4 @@
 
 TODO: 
 Document the project
-Write how to develop on local
+Write how to develop on local and production
