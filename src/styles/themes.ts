@@ -1,5 +1,5 @@
 import { ThemeOptions } from '@mui/material';
-import { indigo, grey } from '@mui/material/colors';
+import { indigo } from '@mui/material/colors';
 import components from './components';
 import { generateTheme } from '@/helpers/theme/generateTheme';
 
@@ -14,11 +14,13 @@ export const darkTheme = generateTheme(
     palette: {
       mode: 'dark',
       primary: {
-        main: indigo[600],
+        main: indigo.A400,
       },
       background: {
-        paper: grey[900],
+        paper: 'rgb(0, 30, 60)',
+        default: 'rgb(10, 25, 41)',
       },
+      divider: 'rgb(22, 57, 92)',
     },
     ...baseTheme,
   },
@@ -30,7 +32,7 @@ export const lightTheme = generateTheme(
     palette: {
       mode: 'light',
       primary: {
-        main: indigo[400],
+        main: indigo.A700,
       },
     },
     ...baseTheme,
