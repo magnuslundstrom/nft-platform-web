@@ -20,7 +20,7 @@ jobs:
       - name: Build application
         run: yarn build
       - name: Start application
-        run: yarn start
+        run: yarn start &
 
   tests:
     needs: build
