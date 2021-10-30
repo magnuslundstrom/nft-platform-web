@@ -20,8 +20,8 @@ jobs:
       - name: Build application
         run: yarn build
 
-      - name: Unit tests
-        run: yarn test:unit
+      - name: List dir
+        run: ls
 
   tests:
     runs-on: ubuntu-latest
