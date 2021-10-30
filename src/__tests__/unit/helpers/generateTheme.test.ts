@@ -2,6 +2,7 @@ import { generateTheme } from '@/helpers/theme/generateTheme';
 
 describe('generateTheme helper function', () => {
   test('generateTheme helper function', () => {
+    console.log('wut');
     const theme = generateTheme(
       {
         palette: {
