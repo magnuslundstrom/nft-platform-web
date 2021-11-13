@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import NextLink from 'next/link';
 import { useWeb3React } from '@web3-react/core';
 import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
@@ -10,9 +10,15 @@ import {
   IconButton,
   Box,
 } from '@mui/material';
+
 import { FlexBox } from '@/components/Generics/FlexBox';
 import { useTheme } from '@/hooks/useTheme';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
+import {
+  unauthorizedLinks,
+  authorizedLinks,
+  NavLinkT,
+} from '@/constants/navigationLinks';
 
 const Header: React.FC = () => {
   const { active, activate, deactivate } = useWeb3React();
@@ -22,6 +28,21 @@ const Header: React.FC = () => {
     if (!active) activate(InjectedConnector);
     else deactivate();
   }, [activate, active, deactivate]);
+
+  const mapLinkHelper = useCallback(
+    (link: NavLinkT) => (
+      <NextLink href={link.url} key={link.url}>
+        <Link underline="hover" marginRight={3}>
+          {link.label}
+        </Link>
+      </NextLink>
+    ),
+    [],
+  );
+  const renderLinks = useMemo(() => {
+    if (!active) return unauthorizedLinks.map(mapLinkHelper);
+    return authorizedLinks.map(mapLinkHelper);
+  }, [active, mapLinkHelper]);
 
   const buttonMessage = active ? 'Disconnect' : 'Connect wallet';
 
@@ -35,23 +56,7 @@ const Header: React.FC = () => {
             </Link>
           </NextLink>
           <Box component="nav">
-            <NextLink href="/marketplace" passHref>
-              <Link underline="hover" marginRight={3}>
-                Marketplace
-              </Link>
-            </NextLink>
-            <NextLink href="/mint" passHref>
-              <Link underline="hover" marginRight={3}>
-                Mint
-              </Link>
-            </NextLink>
-            {active && (
-              <NextLink href="/profile" passHref>
-                <Link underline="hover" marginRight={3}>
-                  Profile
-                </Link>
-              </NextLink>
-            )}
+            {renderLinks}
             <Button
               variant="contained"
               onClick={handleClick}
