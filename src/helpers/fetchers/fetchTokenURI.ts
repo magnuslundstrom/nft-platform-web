@@ -1,19 +1,28 @@
 import { ethers } from 'ethers';
-import { fetchGenericJson } from './fetchGenericJson';
+import { currentContracts } from '@/constants/contracts';
+
+interface FetchTokenURIOptionsT {
+  contractAddress: string;
+  tokenId: string;
+  library: any;
+}
 
 export const fetchTokenURI =
-  (contractAddress: string, id: string) => async (url: string) => {
-    const { abi } = await fetchGenericJson(url);
+  ({ contractAddress, tokenId, library }: FetchTokenURIOptionsT) =>
+  async () => {
+    if (!library) return null;
+    const {
+      mint: { abi },
+    } = currentContracts;
 
-    const provider = ethers.getDefaultProvider('ropsten');
     const metaContract = new ethers.Contract(
       contractAddress as string,
       abi,
-      provider,
+      library,
     );
 
     const tokenURI = await metaContract.functions
-      .tokenURI(id)
+      .tokenURI(tokenId)
       .then((res) => res[0]);
 
     const metaData = await fetch(tokenURI).then((res) => res.json());

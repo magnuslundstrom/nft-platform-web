@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useSWR from 'swr';
@@ -8,16 +9,19 @@ import { fetchTokenURI } from '@/helpers/fetchers/fetchTokenURI';
 import Attributes from '@/components/NFTItem/Attributes';
 
 const Home: NextPage = () => {
+  const { library } = useWeb3React();
   const router = useRouter();
   const { contractAddress, id } = router.query;
-  const { data, error } = useSWR<TokenURIDataT>(
-    `http://localhost:3080/smart-contract/${contractAddress}`,
-    fetchTokenURI(contractAddress as string, id as string),
-  );
 
-  if (error) {
-    return <div>Error!</div>;
-  }
+  const fetchKey = `${contractAddress}:${id}`;
+
+  const fetchTokenURIOptions = {
+    contractAddress: contractAddress as string,
+    tokenId: id as string,
+    library,
+  };
+
+  const { data } = useSWR(fetchKey, fetchTokenURI(fetchTokenURIOptions));
 
   return (
     <Layout
