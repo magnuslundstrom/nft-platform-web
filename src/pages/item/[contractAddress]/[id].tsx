@@ -7,13 +7,14 @@ import { CircularProgress, Box, Typography, Grid } from '@mui/material';
 import Layout from '@/components/Layout/Layout';
 import { fetchTokenURI } from '@/helpers/fetchers/fetchTokenURI';
 import Attributes from '@/components/NFTItem/Attributes';
+import SellArea from '@/components/NFTItem/SellArea';
 
 const Home: NextPage = () => {
   const { library } = useWeb3React();
   const router = useRouter();
   const { contractAddress, id } = router.query;
 
-  const fetchKey = `${contractAddress}:${id}`;
+  const fetchKey = `${contractAddress}:${id}:${!!library}`; // Library to cause retry
 
   const fetchTokenURIOptions = {
     contractAddress: contractAddress as string,
@@ -56,6 +57,7 @@ const Home: NextPage = () => {
                 <Typography variant="subtitle1">{data.description}</Typography>
               </Box>
               <Attributes attributes={data.attributes} />
+              <SellArea />
             </Grid>
           </Grid>
         </Box>
