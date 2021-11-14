@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-// import useSWR from 'swr';
 import type { NextPage } from 'next';
 import { Typography } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
@@ -16,10 +15,6 @@ export type StateT = {
 const Profile: NextPage = () => {
   const { account, library } = useWeb3React();
   const { mint } = currentContracts;
-  // const { data, error } = useSWR<ContractT[]>(
-  //   'http://localhost:3080',
-  //   fetchGenericJson,
-  // );
 
   const [nfts, setNfts] = useState<StateT[]>([]);
   useEffect(() => {

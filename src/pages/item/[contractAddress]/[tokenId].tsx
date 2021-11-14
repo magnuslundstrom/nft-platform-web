@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import useSWR from 'swr';
@@ -6,18 +7,25 @@ import { CircularProgress, Box, Typography, Grid } from '@mui/material';
 import Layout from '@/components/Layout/Layout';
 import { fetchTokenURI } from '@/helpers/fetchers/fetchTokenURI';
 import Attributes from '@/components/NFTItem/Attributes';
+import SellArea from '@/components/NFTItem/SellArea';
 
 const Home: NextPage = () => {
+  const { library } = useWeb3React();
   const router = useRouter();
-  const { contractAddress, id } = router.query;
-  const { data, error } = useSWR<TokenURIDataT>(
-    `http://localhost:3080/smart-contract/${contractAddress}`,
-    fetchTokenURI(contractAddress as string, id as string),
-  );
+  const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
 
-  if (error) {
-    return <div>Error!</div>;
-  }
+  const contractAddress = _contractAddress as string;
+  const tokenId = _tokenId as string;
+
+  const fetchKey = `${contractAddress}:${tokenId}:${!!library}`; // Library to cause retry
+
+  const fetchTokenURIOptions = {
+    contractAddress,
+    tokenId,
+    library,
+  };
+
+  const { data } = useSWR(fetchKey, fetchTokenURI(fetchTokenURIOptions));
 
   return (
     <Layout
@@ -52,6 +60,11 @@ const Home: NextPage = () => {
                 <Typography variant="subtitle1">{data.description}</Typography>
               </Box>
               <Attributes attributes={data.attributes} />
+              <SellArea
+                forSale={false}
+                contractAddress={contractAddress}
+                tokenId={tokenId}
+              />
             </Grid>
           </Grid>
         </Box>
