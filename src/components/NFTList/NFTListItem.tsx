@@ -12,15 +12,17 @@ import {
 import { BsArrowRightShort } from 'react-icons/bs';
 import useSwr from 'swr';
 import { fetchGenericJson } from '@/helpers/fetchers/fetchGenericJson';
+import { currentContracts } from '@/constants/contracts';
+
+const { mint } = currentContracts;
 
 interface Props {
   item: NFTT;
-  contract: string;
 }
 
 const HEIGHT = 240;
 
-const NFTListItem: React.FC<Props> = ({ item, contract }) => {
+const NFTListItem: React.FC<Props> = ({ item }) => {
   const [loadError, setLoadError] = useState(false);
   const { data: _data } = useSwr<TokenURIDataT[]>(
     item.tokenURI,
@@ -67,7 +69,7 @@ const NFTListItem: React.FC<Props> = ({ item, contract }) => {
         <Typography component="h3" variant="h4">
           {data?.name || 'No name provided'}
         </Typography>
-        <Link passHref href={`/item/${contract}/${item.tokenId}`}>
+        <Link passHref href={`/item/${mint.address}/${item.tokenId}`}>
           <Button
             component="button"
             variant="contained"

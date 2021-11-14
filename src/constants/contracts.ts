@@ -36,3 +36,5 @@ export const contracts = {
 };
 
 export const currentContracts = contracts[TARGET_ENV];
+export const currentMintContract = currentContracts.mint;
+export const currentAuctionContract = currentContracts.auction;

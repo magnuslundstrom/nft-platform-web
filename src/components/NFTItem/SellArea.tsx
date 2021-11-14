@@ -2,8 +2,8 @@ import { Button, TextField, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useWeb3React } from '@web3-react/core';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { forSaleSchema } from '@/constants/schemas/forSaleSchema';
-import { AuctionContract } from '@/helpers/contracts/Auction';
+import { forSaleSchema } from '@/helpers/schemas/forSaleSchema';
+import { AuctionContract } from '@/helpers/contracts/AuctionContract';
 
 interface PropsT {
   contractAddress: string;
