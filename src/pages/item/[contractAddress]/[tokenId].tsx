@@ -5,11 +5,11 @@ import Image from 'next/image';
 import useSWR from 'swr';
 import { CircularProgress, Box, Typography, Grid } from '@mui/material';
 import Layout from '@/components/Layout/Layout';
-import { fetchTokenURI } from '@/helpers/fetchers/fetchTokenURI';
+import { fetchNftItem } from '@/helpers/fetchers/fetchNftItem';
 import Attributes from '@/components/NFTItem/Attributes';
 import SellArea from '@/components/NFTItem/SellArea';
 
-const Home: NextPage = () => {
+const NFTItemPage: NextPage = () => {
   const { library } = useWeb3React();
   const router = useRouter();
   const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
@@ -17,15 +17,14 @@ const Home: NextPage = () => {
   const contractAddress = _contractAddress as string;
   const tokenId = _tokenId as string;
 
-  const fetchKey = `${contractAddress}:${tokenId}:${!!library}`; // Library to cause retry
-
-  const fetchTokenURIOptions = {
-    contractAddress,
-    tokenId,
-    library,
-  };
-
-  const { data } = useSWR(fetchKey, fetchTokenURI(fetchTokenURIOptions));
+  const { data } = useSWR(
+    `${contractAddress}:${tokenId}:${!!library}`,
+    fetchNftItem({
+      contractAddress,
+      tokenId,
+      library,
+    }),
+  );
 
   return (
     <Layout
@@ -73,4 +72,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default NFTItemPage;

@@ -2,40 +2,27 @@ import { useState, useEffect } from 'react';
 import type { NextPage } from 'next';
 import { Typography } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
-import { ethers } from 'ethers';
-import { currentContracts } from '@/constants/contracts';
+import { MintContract } from '@/helpers/contracts/MintContract';
 import Layout from '@/components/Layout/Layout';
 import NFTList from '@/components/NFTList/NFTList';
 
-export type StateT = {
-  contractAddress: string;
-  nfts: NFTT[];
-};
-
 const Profile: NextPage = () => {
   const { account, library } = useWeb3React();
-  const { mint } = currentContracts;
 
-  const [nfts, setNfts] = useState<StateT[]>([]);
+  const [nfts, setNfts] = useState<NFTT[]>([]);
   useEffect(() => {
     if (account) {
       const signer = library.getSigner(account);
-      const metaContract = new ethers.Contract(mint.address, mint.abi, signer);
-
-      metaContract.functions.getOwnedNfts(account).then((_data) => {
-        const realData = _data[0];
-        const tokens = realData.map((token: any) => ({
-          tokenURI: token.tokenURI,
-          tokenId: token.tokenId.toNumber(),
+      const mintContract = new MintContract(signer);
+      mintContract.getOwnedNfts(account).then((_nfts) => {
+        const mappedNfts = _nfts.map(({ tokenId, tokenURI }) => ({
+          tokenId: tokenId.toNumber(),
+          tokenURI,
         }));
-        const obj = {
-          contractAddress: mint.address,
-          nfts: tokens,
-        };
-        setNfts([obj]);
+        setNfts(mappedNfts);
       });
     }
-  }, [account, library, mint.abi, mint.address]);
+  }, [account, library]);
 
   return (
     <Layout
