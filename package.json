@@ -12,6 +12,7 @@
     "test:unit": "yarn jest ./src/__tests__/unit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.3",
     "@mui/material": "^5.0.4",
     "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
     "@mui/styles": "^5.0.2",
@@ -27,7 +28,8 @@
     "styled-components": "^5.3.3",
     "swr": "^1.0.1",
     "tailwindcss": "^2.2.17",
-    "twin.macro": "^2.8.0"
+    "twin.macro": "^2.8.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@types/jest": "^27.0.2",

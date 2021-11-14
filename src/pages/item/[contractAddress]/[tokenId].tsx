@@ -12,13 +12,16 @@ import SellArea from '@/components/NFTItem/SellArea';
 const Home: NextPage = () => {
   const { library } = useWeb3React();
   const router = useRouter();
-  const { contractAddress, id } = router.query;
+  const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
 
-  const fetchKey = `${contractAddress}:${id}:${!!library}`; // Library to cause retry
+  const contractAddress = _contractAddress as string;
+  const tokenId = _tokenId as string;
+
+  const fetchKey = `${contractAddress}:${tokenId}:${!!library}`; // Library to cause retry
 
   const fetchTokenURIOptions = {
-    contractAddress: contractAddress as string,
-    tokenId: id as string,
+    contractAddress,
+    tokenId,
     library,
   };
 
@@ -57,7 +60,11 @@ const Home: NextPage = () => {
                 <Typography variant="subtitle1">{data.description}</Typography>
               </Box>
               <Attributes attributes={data.attributes} />
-              <SellArea />
+              <SellArea
+                forSale={false}
+                contractAddress={contractAddress}
+                tokenId={tokenId}
+              />
             </Grid>
           </Grid>
         </Box>
