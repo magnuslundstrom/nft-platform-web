@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
-    "prettify": "prettier --write",
-    "test:unit": "yarn jest ./src/__tests__/unit"
+    "prettify": "prettier --write"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.3",
@@ -18,7 +17,6 @@
     "@mui/styles": "^5.0.2",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
-    "babel-plugin-macros": "^3.1.0",
     "ethers": "^5.4.7",
     "next": "11.1.2",
     "react": "17.0.2",
@@ -27,8 +25,6 @@
     "react-icons": "^4.3.1",
     "styled-components": "^5.3.3",
     "swr": "^1.0.1",
-    "tailwindcss": "^2.2.17",
-    "twin.macro": "^2.8.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
