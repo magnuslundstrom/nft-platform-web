@@ -10,7 +10,7 @@ export const ThemeContext = createContext({
 } as { mode: Modes; toggleMode: () => void });
 
 const ThemeProvider: React.FC = ({ children }) => {
-  const [mode, setMode] = useState<Modes>('light');
+  const [mode, setMode] = useState<Modes>('dark');
   const toggleMode = () => setMode(mode === 'dark' ? 'light' : 'dark');
 
   const theme = useMemo(

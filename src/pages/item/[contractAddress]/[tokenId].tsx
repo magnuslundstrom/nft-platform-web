@@ -1,30 +1,23 @@
 import type { NextPage } from 'next';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import NextLink from 'next/link';
 import useSWR from 'swr';
-import { CircularProgress, Box, Typography, Grid } from '@mui/material';
+import { CircularProgress, Box, Typography, Grid, Button } from '@mui/material';
 import Layout from '@/components/Layout/Layout';
 import { fetchNftItem } from '@/helpers/fetchers/fetchNftItem';
 import Attributes from '@/components/NFTItem/Attributes';
-import SellArea from '@/components/NFTItem/SellArea';
+import { useContract } from '@/hooks/useContract';
 
 const NFTItemPage: NextPage = () => {
-  const { library } = useWeb3React();
+  const { mintContract } = useContract();
   const router = useRouter();
   const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
 
   const contractAddress = _contractAddress as string;
   const tokenId = _tokenId as string;
 
-  const { data } = useSWR(
-    `${contractAddress}:${tokenId}:${!!library}`,
-    fetchNftItem({
-      contractAddress,
-      tokenId,
-      library,
-    }),
-  );
+  const { data } = useSWR(tokenId, (_t) => fetchNftItem(_t, mintContract));
 
   return (
     <Layout
@@ -59,11 +52,11 @@ const NFTItemPage: NextPage = () => {
                 <Typography variant="subtitle1">{data.description}</Typography>
               </Box>
               <Attributes attributes={data.attributes} />
-              <SellArea
-                forSale={false}
-                contractAddress={contractAddress}
-                tokenId={tokenId}
-              />
+              <NextLink href={`/list/${contractAddress}/${tokenId}`} passHref>
+                <Button variant="contained" sx={{ marginTop: 3 }}>
+                  List NFT
+                </Button>
+              </NextLink>
             </Grid>
           </Grid>
         </Box>

@@ -9,7 +9,7 @@ const OwnWeb3Provider: React.FC = ({ children }) => {
     switch (TARGET_ENV) {
       // This doesn't seem to be necessary anyway
       // case 'dev':
-      //   return new JsonRpcProvider('http://localhost:7545');
+      //   return new ethers.providers.JsonRpcProvider('http://localhost:8545');
       default:
         return new Web3Provider(provider);
     }
