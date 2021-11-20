@@ -24,11 +24,13 @@ const HEIGHT = 240;
 
 const NFTListItem: React.FC<Props> = ({ item }) => {
   const [loadError, setLoadError] = useState(false);
+
   const { data: _data } = useSwr<TokenURIDataT[]>(
     item.tokenURI,
     fetchGenericJson,
   );
-  const data = _data ? _data[0] : ({} as any);
+  // eslint-disable-next-line no-unneeded-ternary
+  const data = _data ? _data : ({} as any);
 
   const renderImage = useMemo(() => {
     if (!loadError && !data.image) {

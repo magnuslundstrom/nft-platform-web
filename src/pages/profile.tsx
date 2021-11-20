@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { NextPage } from 'next';
-import { Typography, Switch, Box } from '@mui/material';
+import { Typography, Switch, Box, Snackbar } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import Layout from '@/components/Layout/Layout';
 import NFTList from '@/components/NFTList/NFTList';
@@ -10,7 +10,8 @@ const Profile: NextPage = () => {
   const { account, library } = useWeb3React();
   const [isApproved, setIsApproved] = useState(false);
   const { mintContract } = useContract(true);
-
+  const [displaySnackbar, setDisplaySnackbar] = useState(false);
+  const [disable, setDisable] = useState(true);
   const [nfts, setNfts] = useState<NFTT[]>([]);
   const [done, setDone] = useState(false);
   useEffect(() => {
@@ -27,17 +28,31 @@ const Profile: NextPage = () => {
   }, [account, done, library, mintContract]);
 
   useEffect(() => {
-    if (account) {
-      mintContract.isApprovedForAll(account).then((res) => console.log(res));
+    setDisable(true);
+    if (account && mintContract) {
+      mintContract.isApprovedForAll(account).then((res) => {
+        setIsApproved(res as boolean);
+        setDisable(false);
+      });
     }
   }, [account, mintContract]);
 
-  const handleOnApprove = useCallback(() => {
-    setIsApproved(!isApproved);
-    mintContract
-      .approveAuctionContract(!isApproved)
-      .then(() => console.log('done'));
-  }, [isApproved, mintContract]);
+  const handleOnApprove = useCallback(
+    (state: boolean) => {
+      setIsApproved(state);
+      setDisable(true);
+      setTimeout(async () => {
+        await mintContract.approveAuctionContract(state).then(() => {
+          const cb = () => {
+            setDisplaySnackbar(true);
+            setDisable(false);
+          };
+          mintContract.listenForApprovalsOnce(cb);
+        });
+      }, 300);
+    },
+    [mintContract],
+  );
 
   return (
     <Layout
@@ -52,10 +67,22 @@ const Profile: NextPage = () => {
           You must allow our contract to handle your NFT's before you can sell.
         </Typography>
         <Box sx={{ my: 2 }}>
-          <Switch checked={isApproved} onChange={handleOnApprove} />
+          <Switch
+            disabled={disable}
+            checked={isApproved}
+            onChange={() => handleOnApprove(!isApproved)}
+          />
         </Box>
         <NFTList list={nfts} />
       </section>
+      <Snackbar
+        open={displaySnackbar}
+        autoHideDuration={6000}
+        onClose={() => setDisplaySnackbar(false)}
+        message={`You successfully ${
+          isApproved ? 'approved' : 'disapproved'
+        } our Auction Contract to handle your NFT's`}
+      />
     </Layout>
   );
 };

@@ -41,4 +41,13 @@ export class MintContract extends BaseContract {
     );
     return result;
   }
+
+  async listenForApprovalsOnce(callback: (approved: boolean) => void) {
+    this.contract.once(
+      'ApprovalForAll',
+      (_owner, _operator, approved: boolean) => {
+        callback(approved);
+      },
+    );
+  }
 }

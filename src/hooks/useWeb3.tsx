@@ -1,10 +1,18 @@
+import { useMemo } from 'react';
 import { useWeb3React } from '@web3-react/core';
 
 export const useWeb3 = () => {
-  const { library, activate, active, account, deactivate, chainId } =
-    useWeb3React();
+  const {
+    library: _library,
+    activate,
+    active,
+    account,
+    deactivate,
+    chainId,
+  } = useWeb3React();
 
-  const signer = library?.getSigner(account);
+  const library = useMemo(() => _library, [_library]);
+  const signer = useMemo(() => library?.getSigner(account), [account, library]);
 
   return {
     account,

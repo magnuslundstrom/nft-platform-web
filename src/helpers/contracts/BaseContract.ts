@@ -1,3 +1,4 @@
+/* eslint-disable lines-between-class-members */
 import { ethers } from 'ethers';
 import { currentContracts } from '@/constants/contracts';
 
@@ -7,9 +8,11 @@ export type ContractTypesT = 'auction' | 'mint';
 
 export class BaseContract {
   contract: ethers.Contract;
+  eventAbis: any;
 
   constructor(signerOrProvider: SignerOrProviderT, type: ContractTypesT) {
-    const { address, abi } = currentContracts[type];
+    const { address, abi, eventAbis } = currentContracts[type];
     this.contract = new ethers.Contract(address, abi, signerOrProvider);
+    this.eventAbis = eventAbis;
   }
 }
