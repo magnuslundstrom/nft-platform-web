@@ -15,6 +15,6 @@ export const fetchNftItem = async (
     mintContract.ownerOf(tokenId),
   ]);
 
-  const metaData = (await fetch(tokenURI).then((res) => res.json()))[0];
+  const metaData = await fetch(tokenURI).then((res) => res.json());
   return { ownerOf, ...metaData };
 };
