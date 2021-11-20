@@ -1,5 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseContract, SignerOrProviderT } from './BaseContract';
+import { currentAuctionContract } from '@/constants/contracts';
 
 export class MintContract extends BaseContract {
   constructor(signerOrProvider: SignerOrProviderT) {
@@ -22,5 +23,22 @@ export class MintContract extends BaseContract {
   async ownerOf(tokenId: string) {
     const ownerOf = await this.contract.functions.ownerOf(tokenId);
     return ownerOf[0];
+  }
+
+  async approveAuctionContract(approved: boolean) {
+    const result = await this.contract.setApprovalForAll(
+      currentAuctionContract.address,
+      approved,
+    );
+
+    return result;
+  }
+
+  async isApprovedForAll(owner: string) {
+    const result = await this.contract.isApprovedForAll(
+      owner,
+      currentAuctionContract.address,
+    );
+    return result;
   }
 }
