@@ -53,7 +53,7 @@ const SellArea: React.FC<PropsT> = ({ forSale, tokenId, contractAddress }) => {
       {forSale && (
         <>
           <Typography sx={{ marginTop: 3 }}>
-            The NFT is currently for sale with a minPrice of...
+            The NFT is currently for sale with a price of...
           </Typography>
           <Button variant="contained" sx={{ marginTop: 1 }}>
             Take down for sale

@@ -76,12 +76,12 @@ const NFTListItem: React.FC<Props> = ({ item }) => {
             sx={{ marginTop: 2 }}
             endIcon={<BsArrowRightShort />}
           >
-            {item.minPrice ? 'Buy now' : 'See more'}
+            {item.price ? 'Buy now' : 'See more'}
           </Button>
         </Link>
-        {item.minPrice && (
+        {item.price && (
           <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-            PRICE: {ethers.utils.formatEther(item?.minPrice ?? 0)} ETH
+            PRICE: {ethers.utils.formatEther(item?.price ?? 0)} ETH
           </Typography>
         )}
       </CardContent>

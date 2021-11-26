@@ -13,9 +13,9 @@ export const useFetchNftItem = (tokenId: string) => {
 
     const metaData = await fetch(tokenURI).then((res) => res.json());
     const auctionItem = await auctionContract.auctionsMap(tokenId);
-    const minPrice = ethers.utils.formatEther(auctionItem.minPrice);
+    const price = ethers.utils.formatEther(auctionItem.price);
 
-    return { ownerOf, minPrice, ...metaData };
+    return { ownerOf, price, ...metaData };
   };
 
   return useSWR(`item/${tokenId}`, fetcher);

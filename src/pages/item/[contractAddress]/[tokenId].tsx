@@ -31,7 +31,7 @@ const NFTItemPage: NextPage = () => {
   const handlePurchase = () => {
     // check account balance
 
-    auctionContract.buyNFT(tokenId, data.minPrice);
+    auctionContract.buyNFT(tokenId, data.price);
   };
 
   return (
@@ -75,10 +75,10 @@ const NFTItemPage: NextPage = () => {
                 </NextLink>
               )}
 
-              {data.minPrice !== '0.0' && (
+              {data.price !== '0.0' && (
                 <>
                   <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-                    Price: {data.minPrice}
+                    Price: {data.price}
                   </Typography>
                   <Button
                     variant="contained"

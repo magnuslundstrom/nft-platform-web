@@ -7,26 +7,6 @@
         "type": "uint256"
       }
     ],
-    "name": "auctionList",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function",
-    "constant": true
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
     "name": "auctionsMap",
     "outputs": [
       {
@@ -36,7 +16,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "minPrice",
+        "name": "price",
         "type": "uint256"
       },
       {
@@ -51,8 +31,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -65,8 +44,7 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
@@ -85,14 +63,13 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   },
   {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_minPrice",
+        "name": "_price",
         "type": "uint256"
       },
       {
@@ -122,8 +99,7 @@
     "name": "buyNFT",
     "outputs": [],
     "stateMutability": "payable",
-    "type": "function",
-    "payable": true
+    "type": "function"
   },
   {
     "inputs": [],
@@ -133,7 +109,7 @@
         "components": [
           {
             "internalType": "uint256",
-            "name": "minPrice",
+            "name": "price",
             "type": "uint256"
           },
           {
@@ -158,7 +134,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function",
-    "constant": true
+    "type": "function"
   }
 ]

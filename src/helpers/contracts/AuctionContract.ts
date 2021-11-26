@@ -12,12 +12,12 @@ export class AuctionContract extends BaseContract {
     return result;
   }
 
-  async createAuction(minPrice: number, tokenId: string) {
-    const minPriceInWei = ethers.utils.parseEther(minPrice.toString());
+  async createAuction(price: number, tokenId: string) {
+    const priceInWei = ethers.utils.parseEther(price.toString());
     const tokenIdInNumber = parseInt(tokenId, 10);
 
     this.contract.createAuction(
-      minPriceInWei,
+      priceInWei,
       tokenIdInNumber,
       currentMintContract.address,
     );
@@ -28,7 +28,7 @@ export class AuctionContract extends BaseContract {
     return auctions;
   }
 
-  async buyNFT(tokenId: string, minPrice: string) {
-    this.contract.buyNFT(tokenId, { value: minPrice });
+  async buyNFT(tokenId: string, price: string) {
+    this.contract.buyNFT(tokenId, { value: price });
   }
 }
