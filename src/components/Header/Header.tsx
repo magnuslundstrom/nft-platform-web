@@ -21,7 +21,7 @@ import {
 } from '@/constants/navigationLinks';
 
 const Header: React.FC = () => {
-  const { active, activate, deactivate } = useWeb3React();
+  const { active, activate, deactivate, account } = useWeb3React();
   const { toggleMode, mode } = useTheme();
 
   const handleClick = useCallback(() => {
@@ -30,14 +30,22 @@ const Header: React.FC = () => {
   }, [activate, active, deactivate]);
 
   const mapLinkHelper = useCallback(
-    (link: NavLinkT) => (
-      <NextLink href={link.url} key={link.url}>
-        <Link underline="hover" marginRight={3}>
-          {link.label}
-        </Link>
-      </NextLink>
-    ),
-    [],
+    (link: NavLinkT) => {
+      const { label } = link;
+      let { url } = link;
+      if (url === '/profile/#account') {
+        url = url.replace('#account', account ?? '');
+      }
+
+      return (
+        <NextLink href={url} key={url}>
+          <Link underline="hover" marginRight={3}>
+            {label}
+          </Link>
+        </NextLink>
+      );
+    },
+    [account],
   );
   const renderLinks = useMemo(() => {
     if (!active) return unauthorizedLinks.map(mapLinkHelper);

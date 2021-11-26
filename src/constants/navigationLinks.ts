@@ -10,7 +10,7 @@ const marketplace: NavLinkT = {
 
 const profile: NavLinkT = {
   label: 'Profile',
-  url: '/profile',
+  url: '/profile/#account',
 };
 
 export const unauthorizedLinks = [marketplace];

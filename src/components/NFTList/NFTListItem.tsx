@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ethers } from 'ethers';
 import {
   Card,
   CardContent,
@@ -13,30 +14,27 @@ import { BsArrowRightShort } from 'react-icons/bs';
 import useSwr from 'swr';
 import { fetchGenericJson } from '@/helpers/fetchers/fetchGenericJson';
 import { currentContracts } from '@/constants/contracts';
+import { NFTType } from './NFTList';
 
 const { mint } = currentContracts;
 
 interface Props {
-  item: NFTT;
+  item: NFTType;
 }
 
-const HEIGHT = 240;
+const HEIGHT = 300;
 
 const NFTListItem: React.FC<Props> = ({ item }) => {
   const [loadError, setLoadError] = useState(false);
 
-  const { data: _data } = useSwr<TokenURIDataT[]>(
-    item.tokenURI,
-    fetchGenericJson,
-  );
+  const { data } = useSwr<TokenURIDataT>(item.tokenURI, fetchGenericJson);
   // eslint-disable-next-line no-unneeded-ternary
-  const data = _data ? _data : ({} as any);
 
   const renderImage = useMemo(() => {
-    if (!loadError && !data.image) {
+    if (!loadError && !data?.image) {
       return <Skeleton height={HEIGHT} variant="rectangular" />;
     }
-    if (data.image && loadError) {
+    if (data?.image && loadError) {
       return (
         <Box
           sx={{
@@ -62,7 +60,7 @@ const NFTListItem: React.FC<Props> = ({ item }) => {
         )}
       </Box>
     );
-  }, [data.image, loadError]);
+  }, [data?.image, loadError]);
 
   return (
     <Card raised>
@@ -75,12 +73,17 @@ const NFTListItem: React.FC<Props> = ({ item }) => {
           <Button
             component="button"
             variant="contained"
-            sx={{ mt: 2 }}
+            sx={{ marginTop: 2 }}
             endIcon={<BsArrowRightShort />}
           >
-            See more
+            {item.minPrice ? 'Buy now' : 'See more'}
           </Button>
         </Link>
+        {item.minPrice && (
+          <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
+            PRICE: {ethers.utils.formatEther(item?.minPrice ?? 0)} ETH
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

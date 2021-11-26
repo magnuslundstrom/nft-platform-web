@@ -1,8 +1,9 @@
 import { Grid } from '@mui/material';
 import NFTItem from '@/components/NFTList/NFTListItem';
 
+export type NFTType = Partial<AuctionedNFTT> & NFTT;
 interface Props {
-  list: NFTT[];
+  list: NFTType[];
 }
 
 const NFTList: React.FC<Props> = ({ list }) => (

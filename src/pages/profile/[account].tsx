@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { Typography, Switch, Box, Snackbar } from '@mui/material';
 import { useWeb3React } from '@web3-react/core';
 import Layout from '@/components/Layout/Layout';
@@ -7,13 +8,18 @@ import NFTList from '@/components/NFTList/NFTList';
 import { useContract } from '@/hooks/useContract';
 
 const Profile: NextPage = () => {
-  const { account, library } = useWeb3React();
+  const router = useRouter();
+  const { account: _account } = router.query;
+  const { library } = useWeb3React();
   const [isApproved, setIsApproved] = useState(false);
-  const { mintContract } = useContract(true);
+  const { mintContract } = useContract();
   const [displaySnackbar, setDisplaySnackbar] = useState(false);
   const [disable, setDisable] = useState(true);
   const [nfts, setNfts] = useState<NFTT[]>([]);
   const [done, setDone] = useState(false);
+
+  const account = _account as string;
+
   useEffect(() => {
     if (account && !done) {
       mintContract.getOwnedNfts(account).then((_nfts) => {

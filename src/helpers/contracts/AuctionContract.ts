@@ -5,12 +5,10 @@ import { currentMintContract } from '@/constants/contracts';
 export class AuctionContract extends BaseContract {
   constructor(signerOrProvider: SignerOrProviderT) {
     super(signerOrProvider, 'auction');
-
-    // this.listenForNewAuctions();
   }
 
-  async auctions(tokenId: string) {
-    const result = await this.contract.auctions(tokenId);
+  async auctionsMap(tokenId: string) {
+    const result = await this.contract.auctionsMap(tokenId);
     return result;
   }
 
@@ -25,9 +23,12 @@ export class AuctionContract extends BaseContract {
     );
   }
 
-  // listenForNewAuctions = async () => {
-  //   this.contract.on('event', (from: string, to: string, amount: string) => {
-  //     console.log('got the event!');
-  //   });
-  // };
+  async getAuctions() {
+    const auctions = await this.contract.getAuctions();
+    return auctions;
+  }
+
+  async buyNFT(tokenId: string, minPrice: string) {
+    this.contract.buyNFT(tokenId, { value: minPrice });
+  }
 }
