@@ -1,9 +1,11 @@
 import type { NextPage } from 'next';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { ethers } from 'ethers';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { Box, Typography, Grid, Button } from '@mui/material';
+import { currentAuctionContract } from '@/constants/contracts';
 import { useWeb3 } from '@/hooks/useWeb3';
 import { useContract } from '@/hooks/useContract';
 import { useFetchNftItem } from '@/hooks/fetchers/useFetchNftItem';
@@ -13,7 +15,7 @@ import Attributes from '@/components/NFTItem/Attributes';
 
 const NFTItemPage: NextPage = () => {
   const router = useRouter();
-  const { account } = useWeb3();
+  const { account, library } = useWeb3();
   const [open, setOpen] = useState(false);
   const { auctionContract } = useContract();
   const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
@@ -33,6 +35,45 @@ const NFTItemPage: NextPage = () => {
 
     auctionContract.buyNFT(tokenId, data.price);
   };
+
+  useEffect(() => {
+    if (library) {
+      const test = async (cAddress: string, abi: any) => {
+        const iFace = new ethers.utils.Interface(abi);
+        const logs = await library.getLogs({
+          address: cAddress,
+        });
+        console.log(logs);
+        console.log(iFace);
+        // const decodedEvents = logs.map(
+        //   (log: any) =>
+        //     iFace.decodeEventLog(
+        //       'NFTBuy(uint256,address,address,uint256,uint256,uint256)',
+        //       logs[0].data,
+        //     ),
+        //   // eslint-disable-next-line function-paren-newline
+        // );
+        //   const u = [
+        //     `event NFTBuy(uint256 indexed refTokenId, address indexed refBuyer, address indexed refSeller, uint256 tokenId, uint256 price, uint256 timeStamp
+        // )`,
+        //   ];
+        //   const i = new ethers.utils.Interface(u);
+        //   console.log(i.parseLog(logs[0]));
+
+        // const event = iFace.parseLog(
+        //   'NFTBuy(uint256,address,address,uint256,uint256,uint256)',
+        //   logs[0],
+        // );
+        // console.log(event);
+        // return decodedEvents.map((purchase: any, idx) => (
+        //   <div key={idx}>hi</div>
+        // ));
+      };
+      console.log(
+        test(currentAuctionContract.address, currentAuctionContract.abi),
+      );
+    }
+  }, [library]);
 
   return (
     <Layout

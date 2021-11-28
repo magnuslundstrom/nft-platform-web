@@ -29,6 +29,7 @@ export class AuctionContract extends BaseContract {
   }
 
   async buyNFT(tokenId: string, price: string) {
-    this.contract.buyNFT(tokenId, { value: price });
+    const _price = ethers.utils.parseEther(price);
+    this.contract.buyNFT(tokenId, { value: _price });
   }
 }
