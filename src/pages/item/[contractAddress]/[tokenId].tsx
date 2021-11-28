@@ -1,27 +1,23 @@
 import type { NextPage } from 'next';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { ethers } from 'ethers';
 import Image from 'next/image';
 import NextLink from 'next/link';
 import { Box, Typography, Grid, Button } from '@mui/material';
-import { currentAuctionContract } from '@/constants/contracts';
 import { useWeb3 } from '@/hooks/useWeb3';
 import { useContract } from '@/hooks/useContract';
 import { useFetchNftItem } from '@/hooks/fetchers/useFetchNftItem';
 import Dialog from '@/components/Generics/Dialog';
 import Layout from '@/components/Layout/Layout';
 import Attributes from '@/components/NFTItem/Attributes';
+import Table from '@/components/Generics/Table';
 
 const NFTItemPage: NextPage = () => {
   const router = useRouter();
-  const { account, library } = useWeb3();
+  const { account } = useWeb3();
   const [open, setOpen] = useState(false);
   const { auctionContract } = useContract();
   const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
-
-  // const balance = library?.getBalance(account).then((res) => console.log(res));
-  // console.log(balance);
 
   const contractAddress = _contractAddress as string;
   const tokenId = _tokenId as string;
@@ -32,48 +28,12 @@ const NFTItemPage: NextPage = () => {
 
   const handlePurchase = () => {
     // check account balance
-
     auctionContract.buyNFT(tokenId, data.price);
   };
 
-  useEffect(() => {
-    if (library) {
-      const test = async (cAddress: string, abi: any) => {
-        const iFace = new ethers.utils.Interface(abi);
-        const logs = await library.getLogs({
-          address: cAddress,
-        });
-        console.log(logs);
-        console.log(iFace);
-        // const decodedEvents = logs.map(
-        //   (log: any) =>
-        //     iFace.decodeEventLog(
-        //       'NFTBuy(uint256,address,address,uint256,uint256,uint256)',
-        //       logs[0].data,
-        //     ),
-        //   // eslint-disable-next-line function-paren-newline
-        // );
-        //   const u = [
-        //     `event NFTBuy(uint256 indexed refTokenId, address indexed refBuyer, address indexed refSeller, uint256 tokenId, uint256 price, uint256 timeStamp
-        // )`,
-        //   ];
-        //   const i = new ethers.utils.Interface(u);
-        //   console.log(i.parseLog(logs[0]));
+  console.log(data.purchaseHistory);
 
-        // const event = iFace.parseLog(
-        //   'NFTBuy(uint256,address,address,uint256,uint256,uint256)',
-        //   logs[0],
-        // );
-        // console.log(event);
-        // return decodedEvents.map((purchase: any, idx) => (
-        //   <div key={idx}>hi</div>
-        // ));
-      };
-      console.log(
-        test(currentAuctionContract.address, currentAuctionContract.abi),
-      );
-    }
-  }, [library]);
+  // const purchaseHistory =
 
   return (
     <Layout
@@ -116,7 +76,7 @@ const NFTItemPage: NextPage = () => {
                 </NextLink>
               )}
 
-              {data.price !== '0.0' && (
+              {data.auctionExists && account && (
                 <>
                   <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
                     Price: {data.price}
@@ -132,6 +92,15 @@ const NFTItemPage: NextPage = () => {
               )}
             </Grid>
           </Grid>
+          <Box sx={{ marginTop: 3 }}>
+            <Typography component="h2" variant="h4" sx={{ marginBottom: 2 }}>
+              Purchase history
+            </Typography>
+            <Table
+              headers={['Buyer', 'Seller', 'Price', 'Timestamp']}
+              data={[]}
+            />
+          </Box>
         </Box>
       )}
       <Dialog

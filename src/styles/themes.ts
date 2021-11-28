@@ -1,5 +1,5 @@
 import { ThemeOptions } from '@mui/material';
-import { indigo } from '@mui/material/colors';
+import { indigo, grey } from '@mui/material/colors';
 import components from './components';
 import { generateTheme } from '@/helpers/theme/generateTheme';
 
@@ -33,6 +33,9 @@ export const lightTheme = generateTheme(
       mode: 'light',
       primary: {
         main: indigo.A700,
+      },
+      background: {
+        paper: grey[100],
       },
     },
     ...baseTheme,

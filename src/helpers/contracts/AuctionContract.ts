@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+import moment from 'moment';
 import { BaseContract, SignerOrProviderT } from './BaseContract';
 import { currentMintContract } from '@/constants/contracts';
 
@@ -31,5 +32,36 @@ export class AuctionContract extends BaseContract {
   async buyNFT(tokenId: string, price: string) {
     const _price = ethers.utils.parseEther(price);
     this.contract.buyNFT(tokenId, { value: _price });
+  }
+
+  async getPurchaseHistory(tokenId: string) {
+    const filter = this.contract.filters.NFTBuy(
+      ethers.utils.hexlify(parseInt(tokenId, 10)),
+    );
+
+    const encodedLogs = await this.contract.provider.getLogs(filter);
+    const decodedLogs = encodedLogs.map((log: any) => {
+      const parsedLog = this.contract.interface.parseLog(log);
+      const data = parsedLog.args;
+      const price = ethers.utils.formatEther(data?.price);
+      const seller = data?.refSeller;
+      const buyer = data?.refBuyer;
+      const timeStamp = moment(
+        parseInt(data?.timeStamp.toString(), 10) * 1000,
+      ).format('D/M-Y, h:mm:ss');
+      return {
+        buyer,
+        seller,
+        price,
+        timeStamp,
+      };
+    });
+
+    return decodedLogs;
+  }
+
+  async auctionExists(tokenId: string) {
+    const result = await this.contract.auctionExists(tokenId);
+    return result;
   }
 }

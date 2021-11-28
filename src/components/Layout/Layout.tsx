@@ -22,7 +22,11 @@ const Layout: React.FC<Props> = ({
     <>
       <Head metaTitle={metaTitle} metaDescription={metaDescription} />
       <Header />
-      <Container maxWidth="xl" sx={{ marginTop: 4 }} component="main">
+      <Container
+        maxWidth="xl"
+        sx={{ marginTop: 4, marginBottom: 4 }}
+        component="main"
+      >
         {!loading && children}
         {loading && (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
