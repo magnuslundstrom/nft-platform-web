@@ -10,9 +10,13 @@ export class BaseContract {
   contract: ethers.Contract;
   eventAbis: any;
 
-  constructor(signerOrProvider: SignerOrProviderT, type: ContractTypesT) {
+  constructor(
+    public signerOrProvider: SignerOrProviderT,
+    type: ContractTypesT,
+  ) {
     const { address, abi, eventAbis } = currentContracts[type];
     this.contract = new ethers.Contract(address, abi, signerOrProvider);
+
     this.eventAbis = eventAbis;
   }
 }

@@ -15,7 +15,7 @@ interface PutForSaleInputsT {
 }
 
 const SellNftForm: React.FC<PropsT> = ({ tokenId }) => {
-  const { auctionContract, mintContract } = useContract(true);
+  const { auctionContract, mintContract } = useContract();
   const { account } = useWeb3();
 
   useEffect(() => {
