@@ -1,3 +1,4 @@
+import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseContract, SignerOrProviderT } from './BaseContract';
 import { currentAuctionContract } from '@/constants/contracts';
@@ -10,6 +11,11 @@ export class MintContract extends BaseContract {
   async tokenURI(tokenId: string) {
     const tokenURI = await this.contract.functions.tokenURI(tokenId);
     return tokenURI[0];
+  }
+
+  async name() {
+    const name = await this.contract.functions.name();
+    return name;
   }
 
   async getOwnedNfts(
@@ -25,10 +31,10 @@ export class MintContract extends BaseContract {
     return ownerOf[0];
   }
 
-  async approveAuctionContract(approved: boolean) {
-    const result = await this.contract.setApprovalForAll(
+  async approveAuctionContract(tokenId: string) {
+    const result = await this.contract.approve(
       currentAuctionContract.address,
-      approved,
+      tokenId,
     );
 
     return result;
@@ -42,12 +48,23 @@ export class MintContract extends BaseContract {
     return result;
   }
 
-  async listenForApprovalsOnce(callback: (approved: boolean) => void) {
-    this.contract.once(
-      'ApprovalForAll',
-      (_owner, _operator, approved: boolean) => {
-        callback(approved);
-      },
+  async isAuctionContractApproved(tokenId: string) {
+    const result = this.contract.isApprovedOrOwner(
+      currentAuctionContract.address,
+      tokenId,
     );
+    return result;
+  }
+
+  async listenForApprovalOnce(tokenId: string, callback: () => void) {
+    const filter = this.contract.filters.Approval(
+      null,
+      null,
+      ethers.utils.hexlify(parseInt(tokenId, 10)),
+    );
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    this.contract.once(filter, (_owner, _operator, _tokenId: BigNumber) => {
+      callback();
+    });
   }
 }

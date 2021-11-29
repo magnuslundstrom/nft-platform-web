@@ -9,7 +9,7 @@ declare global {
   }
 
   interface AuctionedNFTT extends NFTT {
-    minPrice: BigNumber;
+    price: BigNumber;
     NFTContractAddress: string;
   }
 

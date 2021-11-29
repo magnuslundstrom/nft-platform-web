@@ -1,10 +1,9 @@
-import { useEffect } from 'react';
 import { Button, TextField } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useWeb3 } from '@/hooks/useWeb3';
 import { forSaleSchema } from '@/helpers/schemas/forSaleSchema';
 import { useContract } from '@/hooks/useContract';
+import { useFeedback } from '@/hooks/useFeedback';
 
 interface PropsT {
   tokenId: string;
@@ -15,14 +14,8 @@ interface PutForSaleInputsT {
 }
 
 const SellNftForm: React.FC<PropsT> = ({ tokenId }) => {
-  const { auctionContract, mintContract } = useContract();
-  const { account } = useWeb3();
-
-  useEffect(() => {
-    if (account) {
-      mintContract.isApprovedForAll(account).then((res) => console.log(res));
-    }
-  }, [account, mintContract]);
+  const { setBackdrop, setMessage } = useFeedback();
+  const { auctionContract } = useContract();
 
   const {
     register,
@@ -33,7 +26,17 @@ const SellNftForm: React.FC<PropsT> = ({ tokenId }) => {
   const onSubmitHandler: SubmitHandler<PutForSaleInputsT> = ({ price }) => {
     auctionContract
       .createAuction(price, tokenId)
-      .then(() => console.log('done'));
+      .then(() => {
+        setBackdrop(true);
+        auctionContract.listenForCreateAuctionOnce(tokenId, () => {
+          setMessage('You successfully put your NFT up for auction!');
+          setBackdrop(false);
+        });
+      })
+      .catch(() => {
+        setBackdrop(false);
+        setMessage('Something went wrong');
+      });
   };
 
   return (
