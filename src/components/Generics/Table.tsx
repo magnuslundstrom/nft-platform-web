@@ -10,31 +10,21 @@ import {
 
 interface Props {
   headers: string[];
-  data: string[][];
+  tableElements: React.ReactNode[][];
 }
 
 // eslint-disable-next-line comma-spacing
-const Table: React.FC<Props> = ({ headers, data }) => {
+const Table: React.FC<Props> = ({ headers, tableElements }) => {
   const renderHeaders = headers.map((header) => (
     <TableCell key={header}>{header}</TableCell>
   ));
 
-  //   const renderBody = data.map((obj, index) => {
-  //     const keys = Object.keys(obj);
-  //     return (
-  //       <TableRow key={index}>
-  //         {keys.map((key, idx) => (
-  //           <TableCell key={idx}>{obj[key]}</TableCell>
-  //         ))}
-  //       </TableRow>
-  //     );
-  //   });
-
-  const renderBody = data.map((stringArr, idx) => (
+  const renderBody = tableElements.map((outer, idx) => (
     // eslint-disable-next-line react/no-array-index-key
     <TableRow key={idx}>
-      {stringArr.map((str) => (
-        <TableCell key={str}>{str}</TableCell>
+      {outer.map((inner, idx1) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <TableCell key={`${idx}-${idx1}`}>{inner}</TableCell>
       ))}
     </TableRow>
   ));

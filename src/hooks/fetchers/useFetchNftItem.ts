@@ -3,12 +3,15 @@ import { ethers } from 'ethers';
 import { useContract } from '@/hooks/useContract';
 
 export const useFetchNftItem = (tokenId: string) => {
+  const FETCH_KEY = `item/${tokenId}`;
   const { mintContract, auctionContract } = useContract();
 
+  // should probably move all calls into Promise.all
   const fetcher = async () => {
-    const [tokenURI, ownerOf] = await Promise.all([
+    const [tokenURI, ownerOf, collectionName] = await Promise.all([
       mintContract.tokenURI(tokenId),
       mintContract.ownerOf(tokenId),
+      mintContract.name(),
     ]);
 
     const metaData = await fetch(tokenURI).then((res) => res.json());
@@ -17,8 +20,15 @@ export const useFetchNftItem = (tokenId: string) => {
     const auctionExists = await auctionContract.auctionExists(tokenId);
 
     const price = ethers.utils.formatEther(auctionItem.price);
-    return { auctionExists, ownerOf, price, purchaseHistory, ...metaData };
+    return {
+      collectionName,
+      auctionExists,
+      ownerOf,
+      price,
+      purchaseHistory,
+      ...metaData,
+    };
   };
 
-  return useSWR(`item/${tokenId}`, fetcher);
+  return useSWR(FETCH_KEY, fetcher);
 };

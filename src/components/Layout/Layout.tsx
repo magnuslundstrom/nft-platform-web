@@ -4,10 +4,13 @@ import {
   Typography,
   CircularProgress,
   Box,
+  Snackbar,
+  Backdrop,
 } from '@mui/material';
 import { useWeb3 } from '@/hooks/useWeb3';
 import Header from '@/components/Header/Header';
 import Head, { HeadPropsT } from '@/components/Head/Head';
+import { useFeedback } from '@/hooks/useFeedback';
 
 type Props = HeadPropsT & { loading?: boolean };
 
@@ -18,6 +21,7 @@ const Layout: React.FC<Props> = ({
   loading,
 }) => {
   const { active } = useWeb3();
+  const { setMessage, message, backdrop, setBackdrop } = useFeedback();
   return (
     <>
       <Head metaTitle={metaTitle} metaDescription={metaDescription} />
@@ -49,6 +53,23 @@ const Layout: React.FC<Props> = ({
               Please connect your wallet for optimal experience
             </Typography>
           </Alert>
+        )}
+        {active && (
+          <Snackbar
+            open={!!message}
+            message={message}
+            autoHideDuration={6000}
+            onClose={() => setMessage('')}
+          />
+        )}
+        {active && backdrop && (
+          <Backdrop
+            onClick={() => setBackdrop(false)}
+            open={backdrop}
+            sx={{ zIndex: 100 }}
+          >
+            <CircularProgress size={50} sx={{ color: 'white', zIndex: 100 }} />
+          </Backdrop>
         )}
       </Container>
     </>

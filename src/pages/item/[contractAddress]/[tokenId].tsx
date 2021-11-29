@@ -6,15 +6,18 @@ import NextLink from 'next/link';
 import { Box, Typography, Grid, Button } from '@mui/material';
 import { useWeb3 } from '@/hooks/useWeb3';
 import { useContract } from '@/hooks/useContract';
+import { useFeedback } from '@/hooks/useFeedback';
 import { useFetchNftItem } from '@/hooks/fetchers/useFetchNftItem';
 import Dialog from '@/components/Generics/Dialog';
 import Layout from '@/components/Layout/Layout';
 import Attributes from '@/components/NFTItem/Attributes';
-import Table from '@/components/Generics/Table';
+import PurchaseHistory from '@/components/NFTItem/PurchaseHistory';
+import Link from '@/components/Generics/Link';
 
 const NFTItemPage: NextPage = () => {
   const router = useRouter();
   const { account } = useWeb3();
+  const { setBackdrop, setMessage } = useFeedback();
   const [open, setOpen] = useState(false);
   const { auctionContract } = useContract();
   const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
@@ -22,18 +25,28 @@ const NFTItemPage: NextPage = () => {
   const contractAddress = _contractAddress as string;
   const tokenId = _tokenId as string;
 
-  const { data } = useFetchNftItem(tokenId);
-
+  const { data, mutate } = useFetchNftItem(tokenId);
   const handleClose = () => setOpen(false);
 
   const handlePurchase = () => {
     // check account balance
-    auctionContract.buyNFT(tokenId, data.price);
+    auctionContract
+      .buyNFT(tokenId, data.price)
+      .then(() => {
+        setBackdrop(true);
+        setOpen(false);
+        auctionContract.listenForPurchase(tokenId, () => {
+          mutate();
+          setBackdrop(false);
+          setMessage(
+            'Congratulations, you sucessfully purchased the selected NFT!',
+          );
+        });
+      })
+      .catch(() => {
+        setMessage('Something went wrong');
+      });
   };
-
-  console.log(data.purchaseHistory);
-
-  // const purchaseHistory =
 
   return (
     <Layout
@@ -62,13 +75,27 @@ const NFTItemPage: NextPage = () => {
             </Grid>
             <Grid item xs={8}>
               <Box sx={{ marginBottom: 3 }}>
-                <Typography component="h3" variant="h5">
-                  From the collection: ...
+                <Typography
+                  component="h3"
+                  variant="h5"
+                  sx={{ marginBottom: 1 }}
+                >
+                  From the collection:{' '}
+                  <Typography component="span" variant="h5">
+                    {data?.collectionName}
+                  </Typography>
                 </Typography>
-                <Typography variant="subtitle1">{data.description}</Typography>
+
+                <Typography variant="subtitle2">
+                  Owner:{' '}
+                  <Link url={`/profile/${data?.ownerOf}`}>{data?.ownerOf}</Link>
+                </Typography>
+                <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
+                  {data.description}
+                </Typography>
               </Box>
               <Attributes attributes={data.attributes} />
-              {data.ownerOf === account && (
+              {data.ownerOf === account && !data.auctionExists && (
                 <NextLink href={`/list/${contractAddress}/${tokenId}`} passHref>
                   <Button variant="contained" sx={{ marginTop: 3 }}>
                     List NFT
@@ -76,18 +103,20 @@ const NFTItemPage: NextPage = () => {
                 </NextLink>
               )}
 
-              {data.auctionExists && account && (
+              {data.auctionExists && (
                 <>
                   <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
                     Price: {data.price}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    sx={{ marginTop: 2 }}
-                    onClick={() => setOpen(true)}
-                  >
-                    Buy now
-                  </Button>
+                  {account && data.auctionExists && account !== data.ownerOf && (
+                    <Button
+                      variant="contained"
+                      sx={{ marginTop: 2 }}
+                      onClick={() => setOpen(true)}
+                    >
+                      Buy now
+                    </Button>
+                  )}
                 </>
               )}
             </Grid>
@@ -96,10 +125,7 @@ const NFTItemPage: NextPage = () => {
             <Typography component="h2" variant="h4" sx={{ marginBottom: 2 }}>
               Purchase history
             </Typography>
-            <Table
-              headers={['Buyer', 'Seller', 'Price', 'Timestamp']}
-              data={[]}
-            />
+            <PurchaseHistory tableData={data?.purchaseHistory} />
           </Box>
         </Box>
       )}

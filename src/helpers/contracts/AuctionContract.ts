@@ -24,6 +24,17 @@ export class AuctionContract extends BaseContract {
     );
   }
 
+  async listenForCreateAuctionOnce(tokenId: string, callback: () => void) {
+    const filter = this.contract.filters.CreateAuction(
+      ethers.utils.hexlify(parseInt(tokenId, 10)),
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    this.contract.once(filter, (_tokenId, _seller, _NFTContractAddress) => {
+      callback();
+    });
+  }
+
   async getAuctions() {
     const auctions = await this.contract.getAuctions();
     return auctions;
@@ -32,6 +43,16 @@ export class AuctionContract extends BaseContract {
   async buyNFT(tokenId: string, price: string) {
     const _price = ethers.utils.parseEther(price);
     this.contract.buyNFT(tokenId, { value: _price });
+  }
+
+  async listenForPurchase(tokenId: string, callback: () => void) {
+    const filter = this.contract.filters.NFTBuy(
+      ethers.utils.hexlify(parseInt(tokenId, 10)),
+    );
+
+    this.contract.once(filter, () => {
+      callback();
+    });
   }
 
   async getPurchaseHistory(tokenId: string) {
