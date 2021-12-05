@@ -30,12 +30,14 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@chainsafe/dappeteer": "^2.3.0",
     "@types/jest": "^27.0.2",
     "@types/react": "17.0.29",
     "@types/styled-components": "^5.1.15",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "autoprefixer": "^10.3.7",
+    "cypress": "^9.1.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-import-resolver-typescript": "^2.5.0",
