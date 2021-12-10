@@ -12,7 +12,7 @@ import { useFetchListNft } from '@/hooks/fetchers/useFetchListNft';
 const ListNFTPage: NextPage = () => {
   const [approved, setApproved] = useState(false);
   const { account } = useWeb3();
-  const { mintContract } = useContract();
+  const { mintContract, auctionContract } = useContract();
   const router = useRouter();
   const { tokenId: _tokenId } = router.query;
   const tokenId = _tokenId as string;
@@ -44,6 +44,10 @@ const ListNFTPage: NextPage = () => {
       });
   }, [mintContract, setBackdrop, setMessage, tokenId]);
 
+  const onAuctionRemoveHandler = useCallback(() => {
+    auctionContract.removeAuction(tokenId);
+  }, [auctionContract, tokenId]);
+
   return (
     <Layout
       metaTitle="Welcome to NFT-platform"
@@ -53,26 +57,62 @@ const ListNFTPage: NextPage = () => {
       <Box>
         {isOwner && (
           <Box>
-            <Typography component="h1" variant="h3" sx={{ marginBottom: 3 }}>
-              List your NFT (token ID: {tokenId})
-            </Typography>
-
-            <Box sx={approved ? { opacity: 0.4, pointerEvents: 'none' } : {}}>
-              <Typography>
-                In order for our Auction smart contract to be able to transfer
-                your NFT you must first allow it to do so.
+            <Box
+              sx={
+                data?.auctionExists
+                  ? { opacity: 0.4, pointerEvents: 'none' }
+                  : {}
+              }
+            >
+              <Typography component="h1" variant="h3" sx={{ marginBottom: 3 }}>
+                List your NFT (token ID: {tokenId})
               </Typography>
-              <Button
-                variant="contained"
-                sx={{ marginTop: 2 }}
-                onClick={onApproveHandler}
-              >
-                Approve
-              </Button>
-            </Box>
 
-            <Box sx={!approved ? { opacity: 0.4, pointerEvents: 'none' } : {}}>
-              <SellNftForm tokenId={tokenId as string} />
+              <Box sx={approved ? { opacity: 0.4, pointerEvents: 'none' } : {}}>
+                <Typography>
+                  In order for our Auction smart contract to be able to transfer
+                  your NFT you must first allow it to do so.
+                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ marginTop: 2 }}
+                  onClick={onApproveHandler}
+                >
+                  Approve
+                </Button>
+              </Box>
+
+              <Box
+                sx={
+                  !approved || data?.auctionExists
+                    ? { opacity: 0.4, pointerEvents: 'none' }
+                    : {}
+                }
+              >
+                <SellNftForm tokenId={tokenId as string} />
+              </Box>
+            </Box>
+            <Box
+              sx={
+                approved && !data?.auctionExists
+                  ? { opacity: 0.4, pointerEvents: 'none' }
+                  : {}
+              }
+            >
+              <Typography
+                component="h2"
+                variant="h4"
+                sx={{ marginBottom: 3, marginTop: 4 }}
+              >
+                Delist your NFT (token ID: {tokenId})
+              </Typography>
+              <Typography sx={{ marginBottom: 2 }}>
+                If you regret putting your NFT for sale, you can delist it by
+                clicking the button below.
+              </Typography>
+              <Button variant="contained" onClick={onAuctionRemoveHandler}>
+                Remove auction
+              </Button>
             </Box>
           </Box>
         )}

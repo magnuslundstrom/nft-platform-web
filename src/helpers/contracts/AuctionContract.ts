@@ -24,6 +24,10 @@ export class AuctionContract extends BaseContract {
     );
   }
 
+  async removeAuction(tokenId: string) {
+    this.contract.removeAuction(tokenId, currentMintContract.address);
+  }
+
   async listenForCreateAuctionOnce(tokenId: string, callback: () => void) {
     const filter = this.contract.filters.CreateAuction(
       ethers.utils.hexlify(parseInt(tokenId, 10)),
