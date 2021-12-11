@@ -2,15 +2,19 @@ import useSWR from 'swr';
 import { useContract } from '@/hooks/useContract';
 
 export const useFetchListNft = (tokenId: string) => {
-  const { mintContract } = useContract();
+  const { mintContract, auctionContract } = useContract();
 
   const fetcher = async () => {
-    const isApproved = await mintContract.isAuctionContractApproved(tokenId);
-    const ownerOf = await mintContract.ownerOf(tokenId);
+    const [isApproved, ownerOf, auctionExists] = await Promise.all([
+      await mintContract.isAuctionContractApproved(tokenId),
+      await mintContract.ownerOf(tokenId),
+      await auctionContract.auctionExists(tokenId),
+    ]);
 
     return {
       ownerOf,
       isApproved,
+      auctionExists,
     };
   };
 

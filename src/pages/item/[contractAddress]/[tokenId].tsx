@@ -106,9 +106,9 @@ const NFTItemPage: NextPage = () => {
               {data.auctionExists && (
                 <>
                   <Typography variant="subtitle1" sx={{ marginTop: 2 }}>
-                    Price: {data.price}
+                    Price: {data.price} ETH
                   </Typography>
-                  {account && data.auctionExists && account !== data.ownerOf && (
+                  {account && account !== data.ownerOf && (
                     <Button
                       variant="contained"
                       sx={{ marginTop: 2 }}
@@ -116,6 +116,16 @@ const NFTItemPage: NextPage = () => {
                     >
                       Buy now
                     </Button>
+                  )}
+                  {account && account === data.ownerOf && (
+                    <NextLink
+                      href={`/list/${contractAddress}/${tokenId}`}
+                      passHref
+                    >
+                      <Button variant="contained" sx={{ marginTop: 3 }}>
+                        Delist NFT
+                      </Button>
+                    </NextLink>
                   )}
                 </>
               )}
