@@ -9,7 +9,8 @@
     "lint": "next lint",
     "prepare": "husky install",
     "prettify": "prettier --write",
-    "test:unit": "jest ./src/__tests__/unit/**/*.test.ts"
+    "test:unit": "jest ./src/__tests__/unit/**/*.test.ts",
+    "test:e2e": "source e2e.env && synpress run"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.3",
@@ -30,6 +31,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@synthetixio/synpress": "^1.1.0",
     "@types/jest": "^27.0.2",
     "@types/react": "17.0.29",
     "@types/styled-components": "^5.1.15",
