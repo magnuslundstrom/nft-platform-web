@@ -48,6 +48,7 @@ const Layout: React.FC<Props> = ({
               background: 'background.paper',
               boxShadow: 4,
             }}
+            data-testid="connect-wallet-alert"
           >
             <Typography>
               Please connect your wallet for optimal experience

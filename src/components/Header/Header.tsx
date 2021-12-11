@@ -69,6 +69,7 @@ const Header: React.FC = () => {
               variant="contained"
               onClick={handleClick}
               sx={{ marginRight: 3 }}
+              data-testid="connect-button"
             >
               {buttonMessage}
             </Button>

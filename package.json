@@ -10,7 +10,8 @@
     "prepare": "husky install",
     "prettify": "prettier --write",
     "test:unit": "jest ./src/__tests__/unit/**/*.test.ts",
-    "test:e2e": "source e2e.env && synpress run"
+    "test:e2e": ". ./scripts/expose.sh && synpress run",
+    "test:e2e-dev": ". ./scripts/expose.sh && synpress open"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.3",

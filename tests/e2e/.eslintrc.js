@@ -8,4 +8,10 @@ const synpressPath = path.join(
 
 module.exports = {
   extends: `${synpressPath}/.eslintrc.js`,
+  rules: {
+    'testing-library/prefer-screen-queries': 'off',
+    'testing-library/await-async-query': 'off',
+    'ui-testing/missing-assertion-in-test': 'off',
+    'ui-testing/no-absolute-url': 'off',
+  },
 };
