@@ -16,7 +16,7 @@ const ListNFTPage: NextPage = () => {
   const router = useRouter();
   const { tokenId: _tokenId } = router.query;
   const tokenId = _tokenId as string;
-  const { data } = useFetchListNft(tokenId);
+  const { data, mutate } = useFetchListNft(tokenId);
 
   const { setMessage, setBackdrop } = useFeedback();
 
@@ -45,8 +45,10 @@ const ListNFTPage: NextPage = () => {
   }, [mintContract, setBackdrop, setMessage, tokenId]);
 
   const onAuctionRemoveHandler = useCallback(() => {
-    auctionContract.removeAuction(tokenId);
-  }, [auctionContract, tokenId]);
+    auctionContract.removeAuction(tokenId)?.then(() => {
+      mutate();
+    });
+  }, [auctionContract, mutate, tokenId]);
 
   return (
     <Layout
@@ -94,7 +96,7 @@ const ListNFTPage: NextPage = () => {
             </Box>
             <Box
               sx={
-                approved && !data?.auctionExists
+                !data?.auctionExists
                   ? { opacity: 0.4, pointerEvents: 'none' }
                   : {}
               }
