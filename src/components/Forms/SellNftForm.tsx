@@ -21,7 +21,7 @@ const SellNftForm: React.FC<PropsT> = ({ tokenId }) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(forSaleSchema) });
+  } = useForm({ resolver: yupResolver(forSaleSchema), mode: 'onBlur' });
 
   const onSubmitHandler: SubmitHandler<PutForSaleInputsT> = ({ price }) => {
     auctionContract

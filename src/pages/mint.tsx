@@ -1,26 +1,48 @@
 import type { NextPage } from 'next';
-import { useWeb3React } from '@web3-react/core';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Typography, TextField, Container, Box, Button } from '@mui/material';
+import { mintNftSchema } from '@/helpers/schemas/mintNftSchema';
+import { useWeb3 } from '@/hooks/useWeb3';
+import { useFetchMintNft } from '@/hooks/fetchers/useFetchMintNft';
 import Layout from '@/components/Layout/Layout';
 
 const Home: NextPage = () => {
-  const { active } = useWeb3React();
+  const { active } = useWeb3();
+  const { data } = useFetchMintNft();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(mintNftSchema), mode: 'onBlur' });
 
   return (
     <Layout
-      metaTitle="Welcome to NFT-platform"
-      metaDescription="Get your next NFT here!"
+      metaTitle="Mint your own NFT here!"
+      metaDescription="Create and publish your own NFT right here!"
     >
-      {!active && (
+      {active && (
         <Box component="section">
-          <Typography component="h1" variant="h3" sx={{ marginBottom: 3 }}>
-            Make us aware of your contract
+          <Typography component="h1" variant="h3" sx={{ marginBottom: 2 }}>
+            Release your own art in our collection
+          </Typography>
+          <Typography component="p" variant="subtitle1">
+            It is important that you follow a certain standard in your tokenURI
+            JSON file. Please see:{' '}
+            <a
+              href="http://nft.josefinegade.com/metadata-3.json"
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: 'inherit' }}
+            >
+              this file for inspiration
+            </a>
+            .{' '}
+          </Typography>
+          <Typography sx={{ marginBottom: 3 }} variant="subtitle1">
+            Whenever you are submitting the NFT you will receive it yourself.
+            You can then list it in our auction, if that is what you desire.
           </Typography>
 
           <Container
@@ -30,38 +52,49 @@ const Home: NextPage = () => {
               padding: 4,
               borderRadius: 2,
               marginLeft: 0,
+              border: '1px solid',
+              borderColor: 'gray',
             }}
           >
-            <form onSubmit={handleSubmit((data) => console.log(data))}>
+            <form onSubmit={() => 'hi'}>
               <TextField
-                label="Contract address"
-                id="contract"
-                variant="standard"
-                defaultValue="james"
-                fullWidth
+                defaultValue={data?.address}
                 InputLabelProps={{ shrink: true }}
                 sx={{ marginBottom: 3 }}
-                error={'contract_address' in errors}
-                helperText="This is required"
-                {...register('contract_address', {
-                  required: true,
-                })}
+                label="Contract address"
+                id="contract_address"
+                variant="standard"
+                helperText="Our contract address"
+                disabled
+                fullWidth
               />
               <TextField
+                defaultValue={data?.name}
+                InputLabelProps={{ shrink: true }}
+                sx={{ marginBottom: 3 }}
                 label="Collection name"
-                id="contract"
+                id="collect_name"
                 variant="standard"
-                defaultValue="james"
+                helperText="Our collection name"
+                fullWidth
+                disabled
+              />
+              <TextField
+                label="Token URI"
+                id="token_uri"
+                variant="standard"
                 fullWidth
                 InputLabelProps={{ shrink: true }}
-                error={'collection_name' in errors}
-                helperText="This is required"
-                {...register('collection_name', {
-                  required: true,
-                })}
+                helperText={
+                  !errors.tokenURI
+                    ? 'Please follow conventions described above'
+                    : errors.tokenURI.message
+                }
+                {...register('tokenURI')}
+                error={!!errors.tokenURI}
               />
               <Button variant="contained" sx={{ marginTop: 3 }} type="submit">
-                Submit
+                Submit NFT
               </Button>
             </form>
           </Container>
