@@ -4,12 +4,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Typography, TextField, Container, Box, Button } from '@mui/material';
 import { mintNftSchema } from '@/helpers/schemas/mintNftSchema';
 import { useWeb3 } from '@/hooks/useWeb3';
+import { useFeedback } from '@/hooks/useFeedback';
+import { useContract } from '@/hooks/useContract';
 import { useFetchMintNft } from '@/hooks/fetchers/useFetchMintNft';
 import Layout from '@/components/Layout/Layout';
 
 const Home: NextPage = () => {
-  const { active } = useWeb3();
+  const { active, account } = useWeb3();
+  const { mintContract } = useContract();
   const { data } = useFetchMintNft();
+  const { setBackdrop, setMessage } = useFeedback();
 
   const {
     register,
@@ -56,7 +60,29 @@ const Home: NextPage = () => {
               borderColor: 'gray',
             }}
           >
-            <form onSubmit={() => 'hi'}>
+            <form
+              onSubmit={handleSubmit((d) => {
+                setBackdrop(true);
+                mintContract
+                  .mintNft(account as string, d.tokenURI as string)
+                  .then(() => {
+                    mintContract.listenForTransferOnce(
+                      account as string,
+                      () => {
+                        setMessage(
+                          'You successfully minted a new NFT. Congrats!',
+                        );
+                      },
+                    );
+                  })
+                  .catch(() => {
+                    setMessage('Something went wrong');
+                  })
+                  .finally(() => {
+                    setBackdrop(false);
+                  });
+              })}
+            >
               <TextField
                 defaultValue={data?.address}
                 InputLabelProps={{ shrink: true }}

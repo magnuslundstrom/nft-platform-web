@@ -18,6 +18,10 @@ export class MintContract extends BaseContract {
     return name;
   }
 
+  async mintNft(receiver: string, tokenURI: string) {
+    await this.contract.functions.mintNFT(receiver, tokenURI);
+  }
+
   async getOwnedNfts(
     address: string,
   ): Promise<{ tokenId: BigNumber; tokenURI: string }[]> {
@@ -64,6 +68,15 @@ export class MintContract extends BaseContract {
     );
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.contract.once(filter, (_owner, _operator, _tokenId: BigNumber) => {
+      callback();
+    });
+  }
+
+  async listenForTransferOnce(to: string, callback: () => void) {
+    const filter = this.contract.filters.Transfer(null, to, null);
+
+    this.contract.once(filter, (_from, _to, _tokenId: string) => {
+      console.log({ _from, _to, _tokenId });
       callback();
     });
   }
