@@ -8,9 +8,9 @@ import {
   Backdrop,
 } from '@mui/material';
 import { useWeb3 } from '@/hooks/useWeb3';
+import { useFeedback } from '@/hooks/useFeedback';
 import Header from '@/components/Header/Header';
 import Head, { HeadPropsT } from '@/components/Head/Head';
-import { useFeedback } from '@/hooks/useFeedback';
 
 type Props = HeadPropsT & { loading?: boolean };
 
@@ -34,7 +34,11 @@ const Layout: React.FC<Props> = ({
         {!loading && children}
         {loading && (
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <CircularProgress size={50} sx={{ color: 'GrayText' }} />
+            <CircularProgress
+              size={50}
+              sx={{ color: 'GrayText' }}
+              data-testid="layout-content-loading-spinner"
+            />
           </Box>
         )}
 

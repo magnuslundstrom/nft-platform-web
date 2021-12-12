@@ -1,6 +1,5 @@
 import { useCallback, useMemo } from 'react';
 import NextLink from 'next/link';
-import { useWeb3React } from '@web3-react/core';
 import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import {
   Button,
@@ -10,7 +9,7 @@ import {
   IconButton,
   Box,
 } from '@mui/material';
-
+import { useWeb3 } from '@/hooks/useWeb3';
 import { FlexBox } from '@/components/Generics/FlexBox';
 import { useTheme } from '@/hooks/useTheme';
 import { InjectedConnector } from '@/helpers/InjectedConnector';
@@ -21,7 +20,7 @@ import {
 } from '@/constants/navigationLinks';
 
 const Header: React.FC = () => {
-  const { active, activate, deactivate, account } = useWeb3React();
+  const { active, activate, deactivate, account } = useWeb3();
   const { toggleMode, mode } = useTheme();
 
   const handleClick = useCallback(() => {
@@ -55,7 +54,7 @@ const Header: React.FC = () => {
   const buttonMessage = active ? 'Disconnect' : 'Connect wallet';
 
   return (
-    <AppBar sx={{ py: 3 }} position="relative">
+    <AppBar sx={{ py: 3 }} position="relative" data-testid="header">
       <Container maxWidth="xl">
         <FlexBox>
           <NextLink href="/" passHref>

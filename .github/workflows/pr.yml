@@ -20,5 +20,8 @@ jobs:
       - name: Build application
         run: yarn build
 
-      - name: Unit tests
-        run: yarn test:unit
+      - name: Unit test helper functions
+        run: yarn test:unit:helpers
+
+      - name: Unit test components
+        run: yarn test:unit:components
