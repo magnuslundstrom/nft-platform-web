@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseContract, SignerOrProviderT } from './BaseContract';
@@ -66,7 +67,6 @@ export class MintContract extends BaseContract {
       null,
       ethers.utils.hexlify(parseInt(tokenId, 10)),
     );
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.contract.once(filter, (_owner, _operator, _tokenId: BigNumber) => {
       callback();
     });
@@ -75,8 +75,7 @@ export class MintContract extends BaseContract {
   async listenForTransferOnce(to: string, callback: () => void) {
     const filter = this.contract.filters.Transfer(null, to, null);
 
-    this.contract.once(filter, (_from, _to, _tokenId: string) => {
-      console.log({ _from, _to, _tokenId });
+    this.contract.once(filter, (_from, _to, _tokenId) => {
       callback();
     });
   }
