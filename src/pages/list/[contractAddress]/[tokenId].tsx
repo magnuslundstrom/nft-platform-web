@@ -27,28 +27,33 @@ const ListNFTPage: NextPage = () => {
   }, [data?.isApproved]);
 
   const onApproveHandler = useCallback(() => {
-    mintContract
-      .approveAuctionContract(tokenId)
-      ?.then(() => {
-        setBackdrop(true);
-        mintContract.listenForApprovalOnce(tokenId, () => {
-          setBackdrop(false);
-          setApproved(true);
-          setMessage('You successfully approved our contract!');
-        });
-      })
-      .catch(() => {
+    mintContract.approveAuctionContract(tokenId)?.then(() => {
+      setBackdrop(true);
+      mintContract.listenForApprovalOnce(tokenId, () => {
         setBackdrop(false);
-        setApproved(false);
-        setMessage('Something went wrong');
+        setApproved(true);
+        setMessage('You successfully approved our contract!');
       });
+    });
   }, [mintContract, setBackdrop, setMessage, tokenId]);
 
   const onAuctionRemoveHandler = useCallback(() => {
-    auctionContract.removeAuction(tokenId)?.then(() => {
-      mutate();
-    });
-  }, [auctionContract, mutate, tokenId]);
+    auctionContract
+      .removeAuction(tokenId)
+      ?.then(() => {
+        setBackdrop(true);
+        auctionContract.listenForRemoveAuctionOnce(tokenId, () => {
+          mutate();
+          setBackdrop(false);
+          setMessage(
+            'You successfully removed the auction for the selected NFT!',
+          );
+        });
+      })
+      .catch(() => {
+        setMessage('Something went wrong!');
+      });
+  }, [auctionContract, mutate, setBackdrop, setMessage, tokenId]);
 
   return (
     <Layout

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ethers } from 'ethers';
 import moment from 'moment';
 import { BaseContract, SignerOrProviderT } from './BaseContract';
@@ -33,8 +34,19 @@ export class AuctionContract extends BaseContract {
       ethers.utils.hexlify(parseInt(tokenId, 10)),
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.contract.once(filter, (_tokenId, _seller, _NFTContractAddress) => {
+      callback();
+    });
+  }
+
+  async listenForRemoveAuctionOnce(tokenId: string, callback: () => void) {
+    const filter = this.contract.filters.RemoveAuction(
+      ethers.utils.hexlify(parseInt(tokenId, 10)),
+      null,
+      null,
+    );
+
+    this.contract.once(filter, (_tokenId, _owner, _NFTContractAddress) => {
       callback();
     });
   }

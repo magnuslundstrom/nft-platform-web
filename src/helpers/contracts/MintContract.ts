@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ethers } from 'ethers';
 import { BigNumber } from '@ethersproject/bignumber';
 import { BaseContract, SignerOrProviderT } from './BaseContract';
@@ -16,6 +17,10 @@ export class MintContract extends BaseContract {
   async name() {
     const name = await this.contract.functions.name();
     return name;
+  }
+
+  async mintNft(receiver: string, tokenURI: string) {
+    await this.contract.functions.mintNFT(receiver, tokenURI);
   }
 
   async getOwnedNfts(
@@ -62,8 +67,15 @@ export class MintContract extends BaseContract {
       null,
       ethers.utils.hexlify(parseInt(tokenId, 10)),
     );
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     this.contract.once(filter, (_owner, _operator, _tokenId: BigNumber) => {
+      callback();
+    });
+  }
+
+  async listenForTransferOnce(to: string, callback: () => void) {
+    const filter = this.contract.filters.Transfer(null, to, null);
+
+    this.contract.once(filter, (_from, _to, _tokenId) => {
       callback();
     });
   }

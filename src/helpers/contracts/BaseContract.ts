@@ -1,3 +1,4 @@
+/* eslint-disable lines-between-class-members */
 import { ethers } from 'ethers';
 import { currentContracts } from '@/constants/contracts';
 
