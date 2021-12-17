@@ -39,7 +39,7 @@ const NFTItemPage: NextPage = () => {
           mutate();
           setBackdrop(false);
           setMessage(
-            'Congratulations, you sucessfully purchased the selected NFT!',
+            'Congratulations, you successfully purchased the selected NFT!',
           );
         });
       })
@@ -61,7 +61,7 @@ const NFTItemPage: NextPage = () => {
           </Typography>
 
           <Grid container spacing={4}>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={8} md={6} lg={4}>
               <Box
                 sx={{
                   height: 500,
