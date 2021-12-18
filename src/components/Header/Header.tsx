@@ -79,7 +79,10 @@ const Header: React.FC = () => {
             </Button>
             {!isMobile && <ThemeToggle />}
             {isMobile && (
-              <IconButton onClick={() => setOpenDrawer(true)}>
+              <IconButton
+                onClick={() => setOpenDrawer(true)}
+                data-testid="burger-icon"
+              >
                 <GiHamburgerMenu />
               </IconButton>
             )}

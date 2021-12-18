@@ -20,6 +20,9 @@ describe('Header component when !active', () => {
     const connectButton = screen.getByTestId('connect-button');
     expect(connectButton.textContent).toBe('Connect wallet');
 
+    const burgerMenuButton = screen.queryByTestId('burger-icon');
+    expect(burgerMenuButton).toBeTruthy();
+
     const profileLink = screen.queryByText('Profile');
     expect(profileLink).toBeFalsy();
 
@@ -43,8 +46,8 @@ describe('Header when active', () => {
     const connectButton = screen.getByTestId('connect-button');
     expect(connectButton.textContent).toBe('Disconnect');
 
-    const profileLink = screen.getByText('Profile');
-    expect(profileLink).toBeTruthy();
+    // const profileLink = screen.getByText('Profile');
+    // expect(profileLink).toBeTruthy();
 
     fireEvent.click(connectButton);
 
