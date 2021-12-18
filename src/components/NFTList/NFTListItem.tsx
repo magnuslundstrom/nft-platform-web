@@ -28,7 +28,6 @@ const NFTListItem: React.FC<Props> = ({ item }) => {
   const [loadError, setLoadError] = useState(false);
 
   const { data } = useSwr<TokenURIDataT>(item.tokenURI, fetchGenericJson);
-  // eslint-disable-next-line no-unneeded-ternary
 
   const renderImage = useMemo(() => {
     if (!loadError && !data?.image) {

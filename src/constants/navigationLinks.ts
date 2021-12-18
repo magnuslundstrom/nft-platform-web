@@ -13,5 +13,5 @@ const mint: NavLinkT = {
   url: '/mint',
 };
 
-export const unauthorizedLinks = [mint];
+export const unauthorizedLinks = [];
 export const authorizedLinks = [mint, profile];

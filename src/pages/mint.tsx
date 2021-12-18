@@ -1,25 +1,41 @@
+import { useCallback } from 'react';
 import type { NextPage } from 'next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Typography, TextField, Container, Box, Button } from '@mui/material';
 import { mintNftSchema } from '@/helpers/schemas/mintNftSchema';
 import { useWeb3 } from '@/hooks/useWeb3';
-import { useFeedback } from '@/hooks/useFeedback';
 import { useContract } from '@/hooks/useContract';
 import { useFetchMintNft } from '@/hooks/fetchers/useFetchMintNft';
+import { useFeedback } from '@/hooks/useFeedback';
 import Layout from '@/components/Layout/Layout';
 
 const Home: NextPage = () => {
-  const { active, account } = useWeb3();
+  const { active, account: _account } = useWeb3();
   const { mintContract } = useContract();
   const { data } = useFetchMintNft();
-  const { setBackdrop, setMessage } = useFeedback();
+  const account = _account as string;
+  const { flow } = useFeedback();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(mintNftSchema), mode: 'onBlur' });
+
+  const onSubmit = useCallback(
+    () =>
+      handleSubmit((formData) => {
+        const { mintNft, listenForTransferOnce } = mintContract;
+        const method = mintNft.bind(mintContract, account, formData.tokenURI);
+
+        const listener = listenForTransferOnce.bind(mintContract, account);
+        const success = 'You successfully minted a new NFT. Congrats!';
+
+        flow({ method, listener, success });
+      }),
+    [account, flow, handleSubmit, mintContract],
+  );
 
   return (
     <Layout
@@ -60,29 +76,7 @@ const Home: NextPage = () => {
               borderColor: 'gray',
             }}
           >
-            <form
-              onSubmit={handleSubmit((d) => {
-                setBackdrop(true);
-                mintContract
-                  .mintNft(account as string, d.tokenURI as string)
-                  .then(() => {
-                    mintContract.listenForTransferOnce(
-                      account as string,
-                      () => {
-                        setMessage(
-                          'You successfully minted a new NFT. Congrats!',
-                        );
-                      },
-                    );
-                  })
-                  .catch(() => {
-                    setMessage('Something went wrong');
-                  })
-                  .finally(() => {
-                    setBackdrop(false);
-                  });
-              })}
-            >
+            <form onSubmit={onSubmit()}>
               <TextField
                 defaultValue={data?.address}
                 InputLabelProps={{ shrink: true }}

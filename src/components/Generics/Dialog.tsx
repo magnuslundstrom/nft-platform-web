@@ -10,6 +10,8 @@ import {
 type Props = React.ComponentProps<typeof MuiDialog> & {
   title: string;
   contentText: string;
+  /** Actions */
+  children: React.ReactNode;
 };
 
 const Modal: React.FC<Props> = ({

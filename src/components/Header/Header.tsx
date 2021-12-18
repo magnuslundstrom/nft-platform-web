@@ -1,6 +1,5 @@
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import NextLink from 'next/link';
-import { BsFillSunFill, BsFillMoonFill } from 'react-icons/bs';
 import {
   Button,
   Link,
@@ -8,7 +7,11 @@ import {
   Container,
   IconButton,
   Box,
+  useMediaQuery,
 } from '@mui/material';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import Drawer from './Drawer';
+import ThemeToggle from './ThemeToggle';
 import { useWeb3 } from '@/hooks/useWeb3';
 import { FlexBox } from '@/components/Generics/FlexBox';
 import { useTheme } from '@/hooks/useTheme';
@@ -21,7 +24,9 @@ import {
 
 const Header: React.FC = () => {
   const { active, activate, deactivate, account } = useWeb3();
-  const { toggleMode, mode } = useTheme();
+  const { theme } = useTheme();
+  const isMobile = !useMediaQuery(theme.breakpoints.up('sm'));
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleClick = useCallback(() => {
     if (!active) activate(InjectedConnector);
@@ -63,18 +68,31 @@ const Header: React.FC = () => {
             </Link>
           </NextLink>
           <Box component="nav">
-            {renderLinks}
+            {!isMobile && <>{renderLinks}</>}
             <Button
               variant="contained"
               onClick={handleClick}
-              sx={{ marginRight: 3 }}
+              sx={{ marginRight: 2 }}
               data-testid="connect-button"
             >
               {buttonMessage}
             </Button>
-            <IconButton aria-label="toggle-light" onClick={toggleMode}>
-              {mode === 'dark' ? <BsFillSunFill /> : <BsFillMoonFill />}
-            </IconButton>
+            {!isMobile && <ThemeToggle />}
+            {isMobile && (
+              <IconButton
+                onClick={() => setOpenDrawer(true)}
+                data-testid="burger-icon"
+              >
+                <GiHamburgerMenu />
+              </IconButton>
+            )}
+            <Drawer
+              open={openDrawer}
+              onClose={() => setOpenDrawer(false)}
+              message={!active ? 'Login to see all features' : ''}
+            >
+              {[...renderLinks, <ThemeToggle key="toggle" />]}
+            </Drawer>
           </Box>
         </FlexBox>
       </Container>
