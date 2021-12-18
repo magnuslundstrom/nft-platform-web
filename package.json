@@ -3,31 +3,68 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "export TARGET_ENV=dev && next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "husky install",
+    "prettify": "prettier --write",
+    "test:unit:components": "jest ./src/__tests__/unit/components/*.test.tsx",
+    "test:unit:helpers": "jest ./src/__tests__/unit/helpers/*.test.ts",
+    "test:e2e": ". ./scripts/expose.sh && synpress run"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.3",
+    "@mui/material": "^5.0.4",
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest",
+    "@mui/styles": "^5.0.2",
     "@web3-react/core": "^6.1.9",
     "@web3-react/injected-connector": "^6.0.7",
-    "babel-plugin-macros": "^3.1.0",
     "ethers": "^5.4.7",
+    "moment": "^2.29.1",
     "next": "11.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "styled-components": "^5.3.1",
+    "react-hook-form": "^7.17.4",
+    "react-icons": "^4.3.1",
+    "styled-components": "^5.3.3",
     "swr": "^1.0.1",
-    "twin.macro": "^2.8.0"
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@synthetixio/synpress": "^1.1.0",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.0.2",
     "@types/react": "17.0.29",
     "@types/styled-components": "^5.1.15",
+    "@typescript-eslint/eslint-plugin": "^5.0.0",
+    "@typescript-eslint/parser": "^5.0.0",
     "autoprefixer": "^10.3.7",
-    "eslint": "8.0.1",
-    "eslint-config-next": "11.1.2",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-import-resolver-typescript": "^2.5.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^7.0.0",
+    "jest": "^27.3.1",
+    "lint-staged": "^11.2.3",
     "postcss": "^8.3.9",
-    "tailwindcss": "^2.2.17",
+    "prettier": "^2.4.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
     "typescript": "4.4.4"
+  },
+  "resolutions": {
+    "@mui/styled-engine": "npm:@mui/styled-engine-sc@latest"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npx eslint ./src",
+      "prettier --write"
+    ]
   }
 }

@@ -3,15 +3,19 @@
   "env": {
     "development": {
       "plugins": [
-        "babel-plugin-macros",
-        ["styled-components", { "ssr": true, "displayName": true, "preprocess": false }]
+        [
+          "styled-components",
+          { "ssr": true, "displayName": true, "preprocess": false }
+        ]
       ],
       "presets": ["next/babel"]
     },
     "production": {
       "plugins": [
-        "babel-plugin-macros",
-        ["styled-components", { "ssr": true, "displayName": true, "preprocess": false }]
+        [
+          "styled-components",
+          { "ssr": true, "displayName": true, "preprocess": false }
+        ]
       ],
       "presets": ["next/babel"]
     }

@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['source.unsplash.com'],
+    domains: ['gateway.pinata.cloud', 'nft.josefinegade.com'],
   },
 };
