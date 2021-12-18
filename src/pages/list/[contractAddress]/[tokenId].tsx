@@ -17,8 +17,7 @@ const ListNFTPage: NextPage = () => {
   const { tokenId: _tokenId } = router.query;
   const tokenId = _tokenId as string;
   const { data, mutate } = useFetchListNft(tokenId);
-
-  const { setMessage, setBackdrop } = useFeedback();
+  const { flow } = useFeedback(mutate);
 
   const isOwner = data && data?.ownerOf === account;
 
@@ -27,33 +26,21 @@ const ListNFTPage: NextPage = () => {
   }, [data?.isApproved]);
 
   const onApproveHandler = useCallback(() => {
-    mintContract.approveAuctionContract(tokenId)?.then(() => {
-      setBackdrop(true);
-      mintContract.listenForApprovalOnce(tokenId, () => {
-        setBackdrop(false);
-        setApproved(true);
-        setMessage('You successfully approved our contract!');
-      });
-    });
-  }, [mintContract, setBackdrop, setMessage, tokenId]);
+    const { approveAuctionContract, listenForApprovalOnce } = mintContract;
+    const method = approveAuctionContract.bind(mintContract, tokenId);
+    const listener = listenForApprovalOnce.bind(mintContract, tokenId);
+    const success = 'You successfully approved our contract!';
+    flow({ method, listener, success });
+  }, [flow, mintContract, tokenId]);
 
   const onAuctionRemoveHandler = useCallback(() => {
-    auctionContract
-      .removeAuction(tokenId)
-      ?.then(() => {
-        setBackdrop(true);
-        auctionContract.listenForRemoveAuctionOnce(tokenId, () => {
-          mutate();
-          setBackdrop(false);
-          setMessage(
-            'You successfully removed the auction for the selected NFT!',
-          );
-        });
-      })
-      .catch(() => {
-        setMessage('Something went wrong!');
-      });
-  }, [auctionContract, mutate, setBackdrop, setMessage, tokenId]);
+    const { removeAuction, listenForRemoveAuctionOnce } = auctionContract;
+    const method = removeAuction.bind(mintContract, tokenId);
+    const listener = listenForRemoveAuctionOnce.bind(mintContract, tokenId);
+    const success =
+      'You successfully removed the auction for the selected NFT!';
+    flow({ method, listener, success });
+  }, [auctionContract, flow, mintContract, tokenId]);
 
   return (
     <Layout
@@ -96,7 +83,7 @@ const ListNFTPage: NextPage = () => {
                     : {}
                 }
               >
-                <SellNftForm tokenId={tokenId as string} />
+                <SellNftForm tokenId={tokenId as string} mutate={mutate} />
               </Box>
             </Box>
             <Box

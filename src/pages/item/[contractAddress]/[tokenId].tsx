@@ -1,5 +1,5 @@
+import { useCallback, useState } from 'react';
 import type { NextPage } from 'next';
-import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import NextLink from 'next/link';
@@ -17,7 +17,6 @@ import Link from '@/components/Generics/Link';
 const NFTItemPage: NextPage = () => {
   const router = useRouter();
   const { account } = useWeb3();
-  const { setBackdrop, setMessage } = useFeedback();
   const [open, setOpen] = useState(false);
   const { auctionContract } = useContract();
   const { contractAddress: _contractAddress, tokenId: _tokenId } = router.query;
@@ -26,27 +25,17 @@ const NFTItemPage: NextPage = () => {
   const tokenId = _tokenId as string;
 
   const { data, mutate } = useFetchNftItem(tokenId);
+  const { flow } = useFeedback(mutate);
   const handleClose = () => setOpen(false);
 
-  const handlePurchase = () => {
-    // check account balance
-    auctionContract
-      .buyNFT(tokenId, data.price)
-      .then(() => {
-        setBackdrop(true);
-        setOpen(false);
-        auctionContract.listenForPurchase(tokenId, () => {
-          mutate();
-          setBackdrop(false);
-          setMessage(
-            'Congratulations, you successfully purchased the selected NFT!',
-          );
-        });
-      })
-      .catch(() => {
-        setMessage('Something went wrong');
-      });
-  };
+  const handlePurchase = useCallback(() => {
+    const { buyNFT, listenForPurchase } = auctionContract;
+    const method = buyNFT.bind(auctionContract, tokenId, data?.price);
+    const listener = listenForPurchase.bind(auctionContract, tokenId);
+    const success =
+      'Congratulations, you successfully purchased the selected NFT!';
+    flow({ method, listener, success });
+  }, [auctionContract, data?.price, flow, tokenId]);
 
   return (
     <Layout
