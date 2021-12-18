@@ -16,9 +16,8 @@ const ListNFTPage: NextPage = () => {
   const router = useRouter();
   const { tokenId: _tokenId } = router.query;
   const tokenId = _tokenId as string;
-  const { data } = useFetchListNft(tokenId);
-
-  const { setMessage, setBackdrop } = useFeedback();
+  const { data, mutate } = useFetchListNft(tokenId);
+  const { flow } = useFeedback(mutate);
 
   const isOwner = data && data?.ownerOf === account;
 
@@ -27,26 +26,21 @@ const ListNFTPage: NextPage = () => {
   }, [data?.isApproved]);
 
   const onApproveHandler = useCallback(() => {
-    mintContract
-      .approveAuctionContract(tokenId)
-      ?.then(() => {
-        setBackdrop(true);
-        mintContract.listenForApprovalOnce(tokenId, () => {
-          setBackdrop(false);
-          setApproved(true);
-          setMessage('You successfully approved our contract!');
-        });
-      })
-      .catch(() => {
-        setBackdrop(false);
-        setApproved(false);
-        setMessage('Something went wrong');
-      });
-  }, [mintContract, setBackdrop, setMessage, tokenId]);
+    const { approveAuctionContract, listenForApprovalOnce } = mintContract;
+    const method = approveAuctionContract.bind(mintContract, tokenId);
+    const listener = listenForApprovalOnce.bind(mintContract, tokenId);
+    const success = 'You successfully approved our contract!';
+    flow({ method, listener, success });
+  }, [flow, mintContract, tokenId]);
 
   const onAuctionRemoveHandler = useCallback(() => {
-    auctionContract.removeAuction(tokenId);
-  }, [auctionContract, tokenId]);
+    const { removeAuction, listenForRemoveAuctionOnce } = auctionContract;
+    const method = removeAuction.bind(mintContract, tokenId);
+    const listener = listenForRemoveAuctionOnce.bind(mintContract, tokenId);
+    const success =
+      'You successfully removed the auction for the selected NFT!';
+    flow({ method, listener, success });
+  }, [auctionContract, flow, mintContract, tokenId]);
 
   return (
     <Layout
@@ -89,12 +83,12 @@ const ListNFTPage: NextPage = () => {
                     : {}
                 }
               >
-                <SellNftForm tokenId={tokenId as string} />
+                <SellNftForm tokenId={tokenId as string} mutate={mutate} />
               </Box>
             </Box>
             <Box
               sx={
-                approved && !data?.auctionExists
+                !data?.auctionExists
                   ? { opacity: 0.4, pointerEvents: 'none' }
                   : {}
               }

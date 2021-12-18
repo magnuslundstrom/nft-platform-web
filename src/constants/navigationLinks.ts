@@ -8,5 +8,10 @@ const profile: NavLinkT = {
   url: '/profile/#account',
 };
 
+const mint: NavLinkT = {
+  label: 'Mint',
+  url: '/mint',
+};
+
 export const unauthorizedLinks = [];
-export const authorizedLinks = [profile];
+export const authorizedLinks = [mint, profile];

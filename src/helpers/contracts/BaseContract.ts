@@ -8,15 +8,12 @@ export type ContractTypesT = 'auction' | 'mint';
 
 export class BaseContract {
   contract: ethers.Contract;
-  eventAbis: any;
 
   constructor(
     public signerOrProvider: SignerOrProviderT,
     type: ContractTypesT,
   ) {
-    const { address, abi, eventAbis } = currentContracts[type];
+    const { address, abi } = currentContracts[type];
     this.contract = new ethers.Contract(address, abi, signerOrProvider);
-
-    this.eventAbis = eventAbis;
   }
 }

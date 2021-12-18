@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Button, TextField } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,37 +8,36 @@ import { useFeedback } from '@/hooks/useFeedback';
 
 interface PropsT {
   tokenId: string;
+  mutate: () => unknown;
 }
 
 interface PutForSaleInputsT {
   price: number;
 }
 
-const SellNftForm: React.FC<PropsT> = ({ tokenId }) => {
-  const { setBackdrop, setMessage } = useFeedback();
+const SellNftForm: React.FC<PropsT> = ({ tokenId, mutate }) => {
   const { auctionContract } = useContract();
+  const { flow } = useFeedback(mutate);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(forSaleSchema) });
+  } = useForm({ resolver: yupResolver(forSaleSchema), mode: 'onBlur' });
 
-  const onSubmitHandler: SubmitHandler<PutForSaleInputsT> = ({ price }) => {
-    auctionContract
-      .createAuction(price, tokenId)
-      .then(() => {
-        setBackdrop(true);
-        auctionContract.listenForCreateAuctionOnce(tokenId, () => {
-          setMessage('You successfully put your NFT up for auction!');
-          setBackdrop(false);
-        });
-      })
-      .catch(() => {
-        setBackdrop(false);
-        setMessage('Something went wrong');
-      });
-  };
+  const onSubmitHandler: SubmitHandler<PutForSaleInputsT> = useCallback(
+    ({ price }) => {
+      const { createAuction, listenForCreateAuctionOnce } = auctionContract;
+      const method = createAuction.bind(auctionContract, price, tokenId);
+      const listener = listenForCreateAuctionOnce.bind(
+        auctionContract,
+        tokenId,
+      );
+      const success = 'You successfully put your NFT up for auction!';
+      flow({ method, listener, success });
+    },
+    [auctionContract, flow, tokenId],
+  );
 
   return (
     <form>
