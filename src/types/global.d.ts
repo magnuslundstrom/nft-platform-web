@@ -1,5 +1,5 @@
 declare namespace NodeJS {
   export interface ProcessEnv {
-    TARGET_ENV: 'dev' | 'staging' | 'prod';
+    NEXT_PUBLIC_TARGET_ENV: 'dev' | 'staging' | 'prod';
   }
 }

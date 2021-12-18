@@ -1,1 +1,1 @@
-export const TARGET_ENV = process.env.TARGET_ENV ?? 'dev';
+export const TARGET_ENV = process.env.NEXT_PUBLIC_TARGET_ENV ?? 'dev';
