@@ -1,6 +1,5 @@
 # NFT-platform-web
 
-
-TODO: 
+TODO:
 Document the project
 Write how to develop on local and production
