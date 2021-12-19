@@ -13,7 +13,7 @@
     "test:unit:components": "jest ./src/__tests__/unit/components/*.test.tsx",
     "test:unit:helpers": "jest ./src/__tests__/unit/helpers/*.test.ts",
     "test:e2e": ". ./scripts/expose.sh && synpress run",
-    "test:e2e:ci": "synpress run"
+    "test:e2e:ci": "synpress run --record"
   },
   "dependencies": {
     "@hookform/resolvers": "^2.8.3",
