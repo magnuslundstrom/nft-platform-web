@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "types": ["node", "jest", "@testing-library/jest-dom"]
+    "types": ["node", "jest"]
   },
 
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

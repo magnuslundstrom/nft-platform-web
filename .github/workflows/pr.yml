@@ -30,4 +30,4 @@ jobs:
         run: yarn test:unit:components
 
       - name: E2E tests
-        run: xvfb-run --auto-servernum yarn test:e2e
+        run: xvfb-run --auto-servernum yarn test:e2e:ci
