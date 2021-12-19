@@ -37,3 +37,6 @@ In order to update smart contract ABIs and chainIds attached to different enviro
 `yarn test:unit:components`
 `yarn test:unit:helpers`
 `yarn test:e2e `
+
+ ### Important information
+ If the connect button does not work, please make sure that your Metamask is connected to a network that is supported in the current environment.
