@@ -45,10 +45,10 @@ describe('Displays correct data when data is provided without price', () => {
     const priceElement = screen.queryByTestId('nft-list-item-price');
     const ctaButton = screen.queryByTestId('nft-list-item-cta');
 
-    expect(imageElement).toBeInTheDocument();
-    expect(nftNameElement).toBeInTheDocument();
-    expect(priceElement).not.toBeInTheDocument();
-    expect(ctaButton).toBeInTheDocument();
+    expect(imageElement).toBeTruthy();
+    expect(nftNameElement).toBeTruthy();
+    expect(priceElement).not.toBeTruthy();
+    expect(ctaButton).toBeTruthy();
     expect(ctaButton?.textContent).toBe('See more');
   });
 });
@@ -72,10 +72,10 @@ describe('Display correct data when data is provided', () => {
     const priceElement = screen.queryByTestId('nft-list-item-price');
     const ctaButton = screen.queryByTestId('nft-list-item-cta');
 
-    expect(imageElement).toBeInTheDocument();
-    expect(nftNameElement).toBeInTheDocument();
-    expect(priceElement).toBeInTheDocument();
-    expect(ctaButton).toBeInTheDocument();
+    expect(imageElement).toBeTruthy();
+    expect(nftNameElement).toBeTruthy();
+    expect(priceElement).toBeTruthy();
+    expect(ctaButton).toBeTruthy();
     expect(ctaButton?.textContent).toBe('Buy now');
   });
 });
