@@ -30,7 +30,7 @@ jobs:
         run: yarn test:unit:components
 
       - name: Start application
-        run: yarn start
+        run: yarn start &
 
       - name: E2E tests
         env:
