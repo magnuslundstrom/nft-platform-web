@@ -21,7 +21,7 @@ jobs:
         run: yarn
 
       - name: Build application
-        run: yarn build
+        run: yarn build:staging
 
       - name: Unit test helper functions
         run: yarn test:unit:helpers

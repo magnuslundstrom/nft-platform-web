@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "export TARGET_ENV=dev && next dev",
     "build": "next build",
+    "build:staging": "TARGET_ENV=staging && next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
