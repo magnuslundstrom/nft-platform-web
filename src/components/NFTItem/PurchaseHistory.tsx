@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import Table from '@/components/Generics/Table';
 import Link from '@/components/Generics/Link';
 
-interface Props {
+export interface PurchaseHistoryProps {
   tableData: {
     buyer: string;
     price: string;
@@ -11,7 +11,7 @@ interface Props {
   }[];
 }
 
-const PurchaseHistory: React.FC<Props> = ({ tableData }) => {
+const PurchaseHistory: React.FC<PurchaseHistoryProps> = ({ tableData }) => {
   const mappedTableData = tableData.map((data) =>
     Object.keys(data).map((_key) => {
       const key = _key as keyof typeof data;

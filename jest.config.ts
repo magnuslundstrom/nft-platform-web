@@ -138,7 +138,7 @@ export default {
 
   // A list of paths to modules that run some code to
   // configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ['<rootDir>/src/__tests__/setuptests.ts'],
 
   // The number of seconds after which a test is
   // considered as slow and reported as such in the results.

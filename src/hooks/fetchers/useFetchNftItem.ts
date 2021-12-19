@@ -6,7 +6,6 @@ export const useFetchNftItem = (tokenId: string) => {
   const FETCH_KEY = `item/${tokenId}`;
   const { mintContract, auctionContract } = useContract();
 
-  // should probably move all calls into Promise.all
   const fetcher = async () => {
     const [tokenURI, ownerOf, collectionName] = await Promise.all([
       mintContract.tokenURI(tokenId),
