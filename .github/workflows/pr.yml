@@ -29,6 +29,9 @@ jobs:
       - name: Unit test components
         run: yarn test:unit:components
 
+      - name: Start application
+        run: yarn start
+
       - name: E2E tests
         env:
           SECRET_WORDS: ${{ secrets.SECRET_WORDS }}
