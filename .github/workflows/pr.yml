@@ -30,4 +30,9 @@ jobs:
         run: yarn test:unit:components
 
       - name: E2E tests
+        env:
+          SECRET_WORDS: ${{ secrets.SECRET_WORDS }}
+          NETWORK_NAME: ${{ secrets.NETWORK_NAME }}
+          RPC_URL: ${{ secrets.RPC_URL }}
+          CHAIN_ID: ${{ secrets.CHAIN_ID }}
         run: xvfb-run --auto-servernum yarn test:e2e:ci
