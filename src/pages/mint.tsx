@@ -78,7 +78,7 @@ const Home: NextPage = () => {
           >
             <form onSubmit={onSubmit()}>
               <TextField
-                defaultValue={data?.address}
+                value={data?.address}
                 InputLabelProps={{ shrink: true }}
                 sx={{ marginBottom: 3 }}
                 label="Contract address"
@@ -89,7 +89,7 @@ const Home: NextPage = () => {
                 fullWidth
               />
               <TextField
-                defaultValue={data?.name}
+                value={data?.name}
                 InputLabelProps={{ shrink: true }}
                 sx={{ marginBottom: 3 }}
                 label="Collection name"

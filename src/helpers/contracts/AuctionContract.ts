@@ -76,10 +76,10 @@ export class AuctionContract extends BaseContract {
       ethers.utils.hexlify(parseInt(tokenId, 10)),
     );
 
-    const encodedLogs = await this.contract.provider.getLogs(filter);
-    const decodedLogs = encodedLogs.map((log: any) => {
-      const parsedLog = this.contract.interface.parseLog(log);
-      const data = parsedLog.args;
+    const logs = await this.contract.queryFilter(filter);
+
+    const decodedArgs = logs.map((arg: any) => {
+      const data = arg.args;
       const price = ethers.utils.formatEther(data?.price);
       const seller = data?.refSeller;
       const buyer = data?.refBuyer;
@@ -94,7 +94,7 @@ export class AuctionContract extends BaseContract {
       };
     });
 
-    return decodedLogs;
+    return decodedArgs;
   }
 
   async auctionExists(tokenId: string) {
