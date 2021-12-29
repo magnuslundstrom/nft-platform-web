@@ -11,7 +11,7 @@ interface Props {
 const NFTList: React.FC<Props> = ({ list, emptyListMessage }) => (
   <Box>
     {list.length > 0 && (
-      <Grid container spacing={4}>
+      <Grid container spacing={4} data-testid="nft-list">
         {list.map((item) => (
           <Grid key={item.tokenId} item xs={12} sm={6} md={4} lg={3}>
             <NFTItem item={item} />
