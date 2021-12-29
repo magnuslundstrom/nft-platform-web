@@ -29,6 +29,7 @@ const NFTItemPage: NextPage = () => {
   const handleClose = () => setOpen(false);
 
   const handlePurchase = useCallback(() => {
+    setOpen(false);
     const { buyNFT, listenForPurchase } = auctionContract;
     const method = buyNFT.bind(auctionContract, tokenId, data?.price);
     const listener = listenForPurchase.bind(auctionContract, tokenId);
