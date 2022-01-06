@@ -7,6 +7,7 @@ import { useFeedback } from '@/hooks/useFeedback';
 import { useWeb3 } from '@/hooks/useWeb3';
 import Layout from '@/components/Layout/Layout';
 import SellNftForm from '@/components/Forms/SellNftForm';
+import AccessDenied from '@/components/AccessDenied/AccessDenied';
 import { useFetchListNft } from '@/hooks/fetchers/useFetchListNft';
 
 const ListNFTPage: NextPage = () => {
@@ -110,17 +111,7 @@ const ListNFTPage: NextPage = () => {
             </Box>
           </Box>
         )}
-        {!isOwner && (
-          <Box>
-            <Typography component="h1" variant="h3" sx={{ marginBottom: 3 }}>
-              Forbidden access
-            </Typography>
-
-            <Typography variant="subtitle2">
-              You are not the owner of this NFT, and can therefore not list it.
-            </Typography>
-          </Box>
-        )}
+        {!isOwner && <AccessDenied />}
       </Box>
     </Layout>
   );
