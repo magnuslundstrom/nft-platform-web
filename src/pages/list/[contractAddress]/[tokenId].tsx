@@ -36,12 +36,12 @@ const ListNFTPage: NextPage = () => {
 
   const onAuctionRemoveHandler = useCallback(() => {
     const { removeAuction, listenForRemoveAuctionOnce } = auctionContract;
-    const method = removeAuction.bind(mintContract, tokenId);
-    const listener = listenForRemoveAuctionOnce.bind(mintContract, tokenId);
+    const method = removeAuction.bind(auctionContract, tokenId);
+    const listener = listenForRemoveAuctionOnce.bind(auctionContract, tokenId);
     const success =
       'You successfully removed the auction for the selected NFT!';
     flow({ method, listener, success });
-  }, [auctionContract, flow, mintContract, tokenId]);
+  }, [auctionContract, flow, tokenId]);
 
   return (
     <Layout
